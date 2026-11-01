@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gatehouse Trust Center</title>
+<meta name="description" content="Live status, security controls, compliance documents and responsible disclosure for Gatehouse.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Familjen+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+/* hero */
+.trust-hero .status{margin-top:34px;animation:rise .9s var(--ease) .6s both}
+.perimeter{position:absolute;right:calc(var(--gut-r) - 40px);top:50%;width:min(46vw,620px);aspect-ratio:1;transform:translateY(-46%);opacity:.9;pointer-events:none}
+.perimeter svg{width:100%;height:100%;overflow:visible}
+.perimeter .spin-a{animation:spin 60s linear infinite;transform-origin:300px 300px}
+.perimeter .spin-b{animation:spin 90s linear infinite reverse;transform-origin:300px 300px}
+.perimeter .spin-c{animation:spin 24s linear infinite;transform-origin:300px 300px}
+.perimeter .core{animation:breathe 4s ease-in-out infinite;transform-origin:300px 300px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes breathe{50%{transform:scale(1.12);opacity:.6}}
+
+/* live status */
+.status-panel{margin-top:48px;border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
+.status-sum{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:22px 26px;border-bottom:1px solid var(--line)}
+.status-sum strong{display:flex;align-items:center;gap:12px;font:500 22px/1 var(--f-head);letter-spacing:-.01em}
+.status-sum span{font:400 12px/1.4 var(--f-mono);color:var(--ink-4);letter-spacing:.06em}
+.comp{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr) 92px;gap:24px;align-items:center;padding:20px 26px;border-bottom:1px solid var(--line)}
+.comp:last-child{border-bottom:0}
+.comp .name{display:flex;flex-direction:column;gap:6px;font-size:15.5px;color:var(--ink)}
+.comp .name small{font:500 10.5px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--steel)}
+.bars{display:flex;gap:2px;height:34px;align-items:stretch}
+.bars i{flex:1 1 0;min-width:0;border-radius:1.5px;background:var(--allow);opacity:.78;transform-origin:bottom;animation:grow .6s var(--ease) both;animation-delay:calc(var(--i) * 6ms);cursor:pointer;transition:opacity .15s}
+.bars i.deg{background:var(--hold);opacity:1}
+.bars i.out{background:var(--deny);opacity:1}
+.bars i:hover,.bars i:focus-visible{opacity:1;outline:none;box-shadow:0 0 0 1px var(--ink)}
+@keyframes grow{from{transform:scaleY(.15);opacity:0}}
+.comp .pct{text-align:right;font:500 18px/1 var(--f-head);font-variant-numeric:tabular-nums}
+.axis{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr) 92px;gap:24px;padding:14px 26px 18px;font:400 11px/1 var(--f-mono);color:var(--ink-4);letter-spacing:.06em}
+.axis div{display:flex;justify-content:space-between}
+.tip{position:fixed;z-index:35;pointer-events:none;padding:10px 12px;border-radius:7px;background:#121417;box-shadow:inset 0 0 0 1px var(--steel-line),0 16px 30px -10px rgba(0,0,0,.8);font:400 12px/1.5 var(--f-mono);color:var(--ink-2);opacity:0;transform:translate(-50%,calc(-100% - 12px));transition:opacity .15s;white-space:nowrap}
+.tip b{display:block;color:var(--ink);font-weight:500}
+.tip.show{opacity:1}
+
+/* data flow */
+.flow-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.flow-wrap{margin-top:40px;border:1px solid var(--steel-line);border-radius:14px;background:var(--screen);overflow-x:auto}
+.flow{display:block;width:100%;min-width:720px;height:auto}
+.flow text{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;fill:var(--steel)}
+.flow .nt{font-family:var(--f-head);font-size:17px;letter-spacing:0;fill:var(--ink);font-weight:500}
+.flow .node{fill:#0d1013;stroke:rgba(160,190,215,.3)}
+.flow .node.hl{stroke:rgba(243,241,236,.7)}
+.flow .wire{fill:none;stroke:rgba(160,190,215,.35);stroke-width:1}
+.flow .m-cloud,.flow .m-vpc{transition:opacity .6s var(--ease)}
+.flow[data-mode="cloud"] .m-vpc,.flow[data-mode="vpc"] .m-cloud{opacity:0}
+.flow-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:28px 0 0;padding:0}
+.flow-facts div{border-top:1px solid var(--line);padding-top:18px}
+.flow-facts dt{font:500 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--steel)}
+.flow-facts dd{margin:12px 0 0;font-size:16px;color:var(--ink-2);max-width:34ch;transition:opacity .3s}
+.flow-facts.swap dd{opacity:0}
+
+.swipe{display:none;margin:12px 0 0;font:400 12px/1.4 var(--f-mono);color:var(--ink-4)}
+@media (max-width:760px){.swipe{display:block}}
+/* controls */
+.controls{margin-top:56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.control{--fill:rgba(243,241,236,.018);padding:28px 26px}
+.control .code{color:var(--live)}
+.control h3{margin-top:14px;font:500 30px/1 var(--f-head);letter-spacing:-.02em}
+.control .def{margin:12px 0 0;font-size:15px;color:var(--ink-3)}
+.control ul{list-style:none;margin:24px 0 0;padding:0;border-top:1px solid var(--line)}
+.control li{display:grid;grid-template-columns:18px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px;color:var(--ink-2)}
+.control li svg{margin-top:3px;color:var(--allow)}
+
+/* documents */
+.docs{margin-top:48px;border-top:1px solid var(--line)}
+.doc{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) auto;gap:24px;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
+.doc h3{font:500 21px/1.2 var(--f-head);letter-spacing:-.01em}
+.doc small{display:block;margin-top:6px;font-size:14px;color:var(--ink-3)}
+.doc .acc{font:500 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--steel)}
+.doc .btn{height:40px;font-size:14px}
+
+/* disclosure */
+.disclose{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,96px);align-items:start}
+.mailbox{margin-top:30px;display:flex;align-items:center;gap:10px;height:56px;padding:0 6px 0 22px;border-radius:999px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line-2);width:fit-content;max-width:100%}
+.mailbox code{font:500 15px/1 var(--f-mono);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mailbox .btn{height:44px}
+.promises{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.promises li{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.promises .num{font-size:30px;font-weight:300;letter-spacing:-.02em}
+.promises p{margin:0;color:var(--ink-2);font-size:15.5px}
+
+@media (max-width:1100px){.perimeter{opacity:.45;right:-120px}}
+@media (max-width:1023px){
+  .controls{grid-template-columns:1fr}
+  .flow-facts{grid-template-columns:1fr;gap:0}
+  .flow-facts div{padding:16px 0}
+}
+@media (max-width:899px){
+  .perimeter{display:none}
+  .comp,.axis{grid-template-columns:1fr 70px;gap:10px 16px;padding-left:18px;padding-right:18px}
+  .comp .bars{grid-column:1 / -1;grid-row:2}
+  .axis > span:first-child,.axis > span:last-child{display:none}
+  .axis div{grid-column:1 / -1}
+  .status-sum{padding:18px}
+  .doc{grid-template-columns:1fr auto;gap:10px 16px}
+  .doc .acc{grid-column:1;grid-row:2}
+  .doc .btn{grid-column:2;grid-row:1 / span 2}
+  .disclose{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .bars{gap:1px;height:30px}
+  .promises li{grid-template-columns:80px 1fr}
+  .mailbox{width:100%}
+  .mailbox code{font-size:13px}
+}
+</style>
+</head>
+<body data-page="trust">
+<div id="site-nav"></div>
+
+<header class="page-hero trust-hero" id="top">
+  <div class="bg" aria-hidden="true"><div class="grid-bg"></div>
+    <div class="perimeter">
+      <svg viewBox="0 0 600 600">
+        <g class="spin-a"><circle cx="300" cy="300" r="270" fill="none" stroke="rgba(160,190,215,.22)" stroke-dasharray="2 10"/><path d="M300 30v18M300 552v18M30 300h18M552 300h18" stroke="rgba(243,241,236,.5)"/></g>
+        <g class="spin-b"><circle cx="300" cy="300" r="210" fill="none" stroke="rgba(160,190,215,.16)"/><path d="M300 90 A210 210 0 0 1 482 195" fill="none" stroke="rgba(62,224,161,.7)" stroke-width="1.5"/><circle cx="482" cy="195" r="3" fill="#3ee0a1"/></g>
+        <g class="spin-c"><rect x="190" y="190" width="220" height="220" fill="none" stroke="rgba(160,190,215,.2)" transform="rotate(45 300 300)"/></g>
+        <circle cx="300" cy="300" r="140" fill="none" stroke="rgba(160,190,215,.12)" stroke-dasharray="1 5"/>
+        <g class="core"><rect x="276" y="276" width="48" height="48" fill="none" stroke="rgba(243,241,236,.8)"/><rect x="292" y="292" width="16" height="16" fill="#f3f1ec"/></g>
+      </svg>
+    </div>
+  </div>
+  <div class="wrap">
+    <span class="label hero-label">Trust center</span>
+    <h1 class="display"><span class="line"><span>Trust, verified.</span></span><span class="line"><span class="thin">Not just promised.</span></span></h1>
+    <p class="hero-sub">How we protect your code, your keys and every agent session. Live status, our controls, and the documents your security team will ask for.</p>
+    <ul class="status" aria-label="Service status">
+      <li><i class="ok pulse"></i><b>Operational</b><span class="sep">·</span>Status</li>
+      <li><i></i><b>99.99%</b><span class="sep">·</span>Uptime</li>
+      <li><i></i><b>SOC2</b><span class="sep">·</span><b>ISO 27001</b><span class="sep">·</span>Compliance</li>
+      <li><i class="ok"></i><b>Low</b><span class="sep">·</span>Threat level</li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <section class="sec" id="status" aria-labelledby="status-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">Live status</span><h2 class="title" id="status-h">Ninety days, <em>every component.</em></h2></div>
+        <p class="lede">Hover any day to see what happened. Incidents are posted here first, with a full review within five business days.</p>
+      </div>
+      <div class="status-panel">
+        <div class="status-sum"><strong><span class="dot pulse"></span>All systems operational</strong><span>Checked <span data-clock="local">--:--:--</span> your time</span></div>
+        <div id="comps"></div>
+        <div class="axis" aria-hidden="true"><span></span><div><span>90 days ago</span><span>Today</span></div><span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec flush" id="flow" aria-labelledby="flow-h">
+    <div class="wrap">
+      <div class="flow-head">
+        <div><span class="label">Where your code goes</span><h2 class="title" id="flow-h">Your source never <em>leaves your side.</em></h2></div>
+        <div class="chips" role="group" aria-label="Deployment model">
+          <button type="button" aria-pressed="true" data-mode="cloud">Gatehouse Cloud</button>
+          <button type="button" aria-pressed="false" data-mode="vpc">Your VPC</button>
+        </div>
+      </div>
+      <div class="flow-wrap">
+        <svg class="flow" id="flowSvg" data-mode="cloud" viewBox="0 0 960 400" role="img" aria-labelledby="flowDesc">
+          <desc id="flowDesc">Data-flow diagram. The AI agent's actions pass through the Gatehouse hook on your machine before reaching the repo. In Gatehouse Cloud mode only metadata leaves your environment. In VPC mode the control plane runs inside your network and only signed updates come in.</desc>
+          <rect x="16" y="16" width="700" height="368" rx="6" fill="rgba(160,190,215,.025)" stroke="rgba(160,190,215,.35)" stroke-dasharray="4 5"/>
+          <text x="34" y="42">YOUR ENVIRONMENT</text>
+
+          <path class="wire" d="M210 238 H290"/><path class="wire" d="M460 238 H540"/>
+
+          <rect class="node" x="40" y="196" width="170" height="84" rx="4"/><text x="58" y="226">AI AGENT</text><text class="nt" x="58" y="256">Claude Code</text>
+          <rect class="node hl" x="290" y="196" width="170" height="84" rx="4"/><text x="308" y="226">GATEHOUSE HOOK</text><text class="nt" x="308" y="256">Policy decision</text>
+          <rect class="node" x="540" y="196" width="156" height="84" rx="4"/><text x="558" y="226">DESTINATION</text><text class="nt" x="558" y="256">Repo · shell</text>
+
+          <g class="m-cloud">
+            <rect x="290" y="64" width="170" height="76" rx="4" fill="none" stroke="rgba(160,190,215,.28)" stroke-dasharray="3 4"/><text x="308" y="92" opacity=".6">CONTROL PLANE</text><text class="nt" x="308" y="120" style="fill:rgba(243,241,236,.45)">Hosted for you</text>
+            <path class="wire" d="M460 102 H860 V196" stroke-dasharray="1 5" opacity=".6"/>
+            <path class="wire" d="M375 280 V340 H860 V280" stroke-dasharray="3 4"/>
+            <rect x="680" y="328" width="78" height="22" rx="3" fill="#07090b" stroke="rgba(160,190,215,.35)"/><text x="692" y="343">TLS 1.3</text>
+            <rect class="node" x="780" y="196" width="160" height="84" rx="4"/><text x="798" y="226">GATEHOUSE CLOUD</text><text class="nt" x="798" y="256">Metadata only</text>
+          </g>
+          <g class="m-vpc">
+            <path class="wire" d="M860 196 V102 H460" stroke-dasharray="3 4"/><path class="wire" d="M375 140 V196"/>
+            <rect x="680" y="90" width="78" height="22" rx="3" fill="#07090b" stroke="rgba(160,190,215,.35)"/><text x="694" y="105">SIGNED</text>
+            <rect class="node" x="290" y="64" width="170" height="76" rx="4"/><text x="308" y="92">CONTROL PLANE</text><text class="nt" x="308" y="120">In your VPC</text>
+            <rect class="node" x="780" y="196" width="160" height="84" rx="4"/><text x="798" y="226">UPDATE REGISTRY</text><text class="nt" x="798" y="256">Signed images</text>
+          </g>
+
+          <g id="packets">
+            <circle r="3.5" fill="#3ee0a1"><animateMotion dur="1.6s" repeatCount="indefinite" path="M210 238 H290"/></circle>
+            <circle r="3.5" fill="#3ee0a1"><animateMotion dur="1.6s" begin=".8s" repeatCount="indefinite" path="M210 238 H290"/></circle>
+            <circle r="3.5" fill="#3ee0a1"><animateMotion dur="1.6s" begin=".4s" repeatCount="indefinite" path="M460 238 H540"/></circle>
+            <circle r="3.5" fill="#ff7a63"><animateMotion dur="3.2s" begin="1.1s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.4;1" calcMode="linear" path="M210 238 H282"/><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;.4;.55;1" dur="3.2s" begin="1.1s" repeatCount="indefinite"/></circle>
+            <g class="m-cloud"><circle r="3" fill="#9fb4c6"><animateMotion dur="3.4s" repeatCount="indefinite" path="M375 280 V340 H860 V280"/></circle></g>
+            <g class="m-vpc"><circle r="3" fill="#f3f1ec"><animateMotion dur="3.4s" repeatCount="indefinite" path="M860 196 V102 H460"/></circle><circle r="3" fill="#9fb4c6"><animateMotion dur="1.2s" begin=".3s" repeatCount="indefinite" path="M375 140 V196"/></circle></g>
+          </g>
+          <text x="236" y="300" fill="#ff7a63" style="fill:#ff7a63">DENIED</text>
+        </svg>
+      </div>
+      <p class="swipe">Swipe sideways to see the whole diagram</p>
+      <dl class="flow-facts" id="flowFacts">
+        <div><dt>Source code</dt><dd data-cloud="Stays on the developer's machine. The hook decides locally; code is never uploaded." data-vpc="Stays in your network. Every component runs in your own cloud account.">Stays on the developer's machine. The hook decides locally; code is never uploaded.</dd></div>
+        <div><dt>What leaves</dt><dd data-cloud="Event metadata and content hashes, encrypted with TLS 1.3 in transit and AES-256 at rest." data-vpc="Nothing. Your control plane talks only to your agents and your SIEM.">Event metadata and content hashes, encrypted with TLS 1.3 in transit and AES-256 at rest.</dd></div>
+        <div><dt>What comes in</dt><dd data-cloud="Policy and threat-intel updates, signed and verified before they load." data-vpc="Signed container images, pulled on your schedule and verified before deploy.">Policy and threat-intel updates, signed and verified before they load.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec rule" aria-labelledby="ctl-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">Our controls</span><h2 class="title" id="ctl-h">Built on the same <em>three values.</em></h2></div>
+        <p class="lede">The values we hire for are the values we audit against. Each control maps to one of them.</p>
+      </div>
+      <div class="controls">
+        <article class="control corners hoverable reveal">
+          <span class="code">VAL.01</span><h3>Vigilance</h3>
+          <p class="def">Always watching, never anxious.</p>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>24/7 monitoring of every production system</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Tamper-evident audit logs for staff access</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Threat intelligence refreshed every hour</li>
+          </ul>
+        </article>
+        <article class="control corners hoverable reveal">
+          <span class="code">VAL.02</span><h3>Precision</h3>
+          <p class="def">Every pixel, packet and word is deliberate.</p>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Least-privilege access with hardware keys</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>AES-256 at rest, TLS 1.3 in transit</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Per-tenant encryption keys</li>
+          </ul>
+        </article>
+        <article class="control corners hoverable reveal">
+          <span class="code">VAL.03</span><h3>Resilience</h3>
+          <p class="def">Systems that bend and recover.</p>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Multi-region failover for the policy API</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Encrypted daily backups, restore-tested quarterly</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Hooks fail closed if the service is unreachable</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec flush" aria-labelledby="docs-h">
+    <div class="wrap">
+      <span class="label">Documents</span>
+      <h2 class="title" id="docs-h">Everything your <em>reviewer will ask for.</em></h2>
+      <div class="docs">
+        <div class="doc"><div><h3>SOC 2 Type II report</h3><small>Security, availability and confidentiality</small></div><span class="acc">Under NDA</span><a class="btn btn-ghost" href="contact.html">Request</a></div>
+        <div class="doc"><div><h3>ISO/IEC 27001 certificate</h3><small>Information security management system</small></div><span class="acc">Public</span><a class="btn btn-ghost" href="contact.html">Request</a></div>
+        <div class="doc"><div><h3>Penetration test summary</h3><small>Independent annual test of platform and hooks</small></div><span class="acc">Under NDA</span><a class="btn btn-ghost" href="contact.html">Request</a></div>
+        <div class="doc"><div><h3>Security questionnaire</h3><small>Pre-filled CAIQ and SIG Lite</small></div><span class="acc">Under NDA</span><a class="btn btn-ghost" href="contact.html">Request</a></div>
+        <div class="doc"><div><h3>Subprocessor list</h3><small>Every vendor that touches customer metadata</small></div><span class="acc">Public</span><a class="btn btn-ghost" href="contact.html">Request</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="disclosure" aria-labelledby="disc-h">
+    <div class="wrap disclose">
+      <div>
+        <span class="label">Responsible disclosure</span>
+        <h2 class="title" id="disc-h">Found something? <em>Tell us first.</em></h2>
+        <p class="lede">We welcome reports from security researchers and protect good-faith research. Include steps to reproduce and we'll work with you on a fix and a disclosure date.</p>
+        <div class="mailbox"><code>security@gatehouse.dev</code><button class="btn btn-primary" type="button" data-copy="security@gatehouse.dev">Copy <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></div>
+      </div>
+      <ul class="promises">
+        <li><span class="num">24 h</span><p>We acknowledge every report within one day.</p></li>
+        <li><span class="num">5 d</span><p>You get a triage decision and severity within five business days.</p></li>
+        <li><span class="num">90 d</span><p>We aim to fix and coordinate public disclosure within ninety days.</p></li>
+        <li><span class="num">Safe</span><p>Good-faith research under this policy won't face legal action from us.</p></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<div class="tip" id="tip" role="tooltip"></div>
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+(function(){
+  var GH = window.GH, reduce = GH.reduce;
+
+  /* ───── uptime bars ───── */
+  var COMPS = [
+    {name: 'Policy engine API', tag: 'Portcullis', incidents: {61: ['deg', 14]}},
+    {name: 'Injection scanner', tag: 'Warden', incidents: {}},
+    {name: 'Registry mirror', tag: 'Sieve', incidents: {23: ['deg', 32], 77: ['out', 9]}},
+    {name: 'Signing service', tag: 'Logbook', incidents: {}},
+    {name: 'Dashboard', tag: 'Web app', incidents: {44: ['deg', 21]}}
+  ];
+  var comps = document.getElementById('comps'), tip = document.getElementById('tip');
+  var fmt = new Intl.DateTimeFormat('en-GB', {day: 'numeric', month: 'short'});
+  COMPS.forEach(function(c){
+    var mins = 0, bars = '';
+    for (var i = 0; i < 90; i++){
+      var inc = c.incidents[i], cls = inc ? inc[0] : '';
+      if (inc) mins += inc[1];
+      bars += '<i class="' + cls + '" style="--i:' + i + '" data-day="' + i + '" tabindex="' + (inc ? 0 : -1) + '"></i>';
+    }
+    var pct = 100 - mins / (90 * 1440) * 100;
+    var row = document.createElement('div'); row.className = 'comp';
+    row.innerHTML = '<div class="name">' + c.name + '<small>' + c.tag + '</small></div><div class="bars" aria-label="' + c.name + ' uptime, last 90 days">' + bars + '</div><span class="pct">' + pct.toFixed(2) + '%</span>';
+    row._c = c; comps.appendChild(row);
+  });
+  function showTip(bar){
+    var row = bar.closest('.comp'), c = row._c, i = +bar.dataset.day, inc = c.incidents[i];
+    var d = new Date(); d.setDate(d.getDate() - (89 - i));
+    tip.innerHTML = '<b>' + fmt.format(d) + ' · ' + c.name + '</b>' + (inc ? (inc[0] === 'out' ? 'Outage · ' : 'Degraded · ') + inc[1] + ' min, resolved' : 'No incidents');
+    var r = bar.getBoundingClientRect();
+    tip.style.left = Math.max(120, Math.min(window.innerWidth - 120, r.left + r.width / 2)) + 'px'; tip.style.top = r.top + 'px';
+    tip.classList.add('show');
+  }
+  comps.addEventListener('pointerover', function(e){ var b = e.target.closest('.bars i'); if (b) showTip(b); });
+  comps.addEventListener('pointerleave', function(){ tip.classList.remove('show'); });
+  comps.addEventListener('focusin', function(e){ var b = e.target.closest('.bars i'); if (b) showTip(b); });
+  comps.addEventListener('focusout', function(){ tip.classList.remove('show'); });
+  window.addEventListener('scroll', function(){ tip.classList.remove('show'); }, {passive: true});
+
+  /* ───── data flow toggle ───── */
+  var svg = document.getElementById('flowSvg'), facts = document.getElementById('flowFacts'), modeBtns = [].slice.call(document.querySelectorAll('[data-mode]')).filter(function(b){ return b.tagName === 'BUTTON'; });
+  if (reduce){ var pk = document.getElementById('packets'); pk.parentNode.removeChild(pk); }
+  modeBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var m = b.dataset.mode; if (svg.getAttribute('data-mode') === m) return;
+      modeBtns.forEach(function(o){ o.setAttribute('aria-pressed', o === b); });
+      svg.setAttribute('data-mode', m);
+      facts.classList.add('swap');
+      setTimeout(function(){ facts.querySelectorAll('dd').forEach(function(dd){ dd.textContent = dd.getAttribute('data-' + m); }); facts.classList.remove('swap'); }, reduce ? 0 : 300);
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gatehouse Careers</title>
+<meta name="description" content="Join the watch. Open roles at Gatehouse, the security layer for AI coding agents.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Familjen+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+/* hero */
+.careers-hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:40px}
+.open-count{text-align:right;animation:fade 1.2s ease .5s both}
+.open-count .num{display:block;font-size:clamp(120px,17vw,260px);font-weight:300;line-height:.8;letter-spacing:-.04em;color:var(--ink)}
+.open-count .label{margin-top:18px;justify-content:flex-end}
+.open-count .label::before{display:none}
+.roster{position:absolute;top:calc(130px + env(safe-area-inset-top, 0px));right:var(--gut-r);display:grid;gap:8px;font:400 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--steel-2);text-align:right;animation:fade 1.2s ease .9s both}
+.roster span b{color:var(--live);font-weight:500}
+
+/* principles */
+.principles{margin-top:56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.principle{--fill:rgba(243,241,236,.018);padding:30px 28px 32px;display:flex;flex-direction:column;gap:16px;min-height:300px}
+.principle .code{color:var(--live)}
+.principle h3{font:500 clamp(30px,2.6vw,40px)/1 var(--f-head);letter-spacing:-.02em}
+.principle .def{margin:0;font-size:15px;color:var(--ink-3);font-style:normal}
+.principle p{margin:auto 0 0;font-size:16.5px;line-height:1.55;color:var(--ink-2);max-width:34ch}
+
+/* roles */
+.roles-top{margin-top:48px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.roles-meta{font:400 12.5px/1 var(--f-mono);color:var(--ink-4);letter-spacing:.06em}
+.role-list{margin-top:28px;border-top:1px solid var(--line)}
+.role{border-bottom:1px solid var(--line)}
+.role.leaving{animation:out .22s var(--ease) both}
+.role.entering{animation:rise .55s var(--ease) both;animation-delay:calc(var(--i, 0) * 55ms)}
+@keyframes out{to{opacity:0;transform:translateY(-6px)}}
+.role-head{width:100%;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr) minmax(0,1fr) 40px;gap:20px;align-items:center;padding:24px 0;background:none;border:0;text-align:left;cursor:pointer;color:var(--ink)}
+.role-h{margin:0;font:inherit}
+.role-head .rt{font:500 clamp(20px,1.8vw,26px)/1.15 var(--f-head);letter-spacing:-.01em;transition:transform .45s var(--ease)}
+.role-head:hover .rt{transform:translateX(6px)}
+.role-head .team,.role-head .loc{font-size:15px;color:var(--ink-3)}
+.role-head .team{font:500 11.5px/1.3 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--steel)}
+.plus{width:36px;height:36px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--line-2);display:grid;place-items:center;justify-self:end;transition:transform .45s var(--ease),background .25s}
+.role-head:hover .plus{background:rgba(243,241,236,.06)}
+.role-head[aria-expanded="true"] .plus{transform:rotate(45deg);background:var(--ink);color:#0a0a0a}
+.role-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.role.open .role-body{grid-template-rows:1fr}
+.role-body > div{overflow:hidden}
+.role-inner{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,2fr);gap:20px 40px;padding:0 0 32px}
+.role-inner p{margin:0;font-size:16px;color:var(--ink-2);max-width:44ch}
+.role-inner ul{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:15px;color:var(--ink-2)}
+.role-inner li{display:grid;grid-template-columns:18px 1fr;gap:10px}
+.role-inner li::before{content:"";width:8px;height:1px;background:var(--steel);margin-top:11px}
+.role-inner .apply{grid-column:2;display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.empty{padding:40px 0;color:var(--ink-3);font-size:15px}
+
+/* hiring steps */
+.steps{margin-top:56px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;position:relative}
+.steps::before{content:"";position:absolute;left:0;right:0;top:15px;height:1px;background:var(--line-2);transform-origin:left;transform:scaleX(.001);transition:transform 1.6s var(--ease)}
+.steps.in::before{transform:none}
+.step{position:relative;padding-top:48px}
+.step .n{position:absolute;top:0;left:0;width:31px;height:31px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 1px var(--ink-3);display:grid;place-items:center;font:500 12px/1 var(--f-mono);color:var(--ink)}
+.step h3{font:500 22px/1.15 var(--f-head);letter-spacing:-.01em}
+.step .dur{display:block;margin-top:10px;font:500 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--steel)}
+.step p{margin:14px 0 0;font-size:15px;color:var(--ink-2);max-width:30ch}
+
+@media (max-width:1023px){
+  .principles{grid-template-columns:1fr}
+  .principle{min-height:0}
+  .steps{grid-template-columns:1fr 1fr;gap:36px 24px}
+  .steps::before{display:none}
+}
+@media (max-width:899px){
+  .careers-hero .wrap{grid-template-columns:1fr}
+  .open-count{text-align:left;display:flex;align-items:baseline;gap:16px}
+  .open-count .num{font-size:96px}
+  .open-count .label{margin-top:0}
+  .roster{display:none}
+  .role-head{grid-template-columns:minmax(0,1fr) 40px;gap:8px 16px}
+  .role-head .rt{grid-column:1}
+  .role-head .team,.role-head .loc{grid-column:1}
+  .role-head .plus{grid-column:2;grid-row:1 / span 3;align-self:center}
+  .role-inner{grid-template-columns:1fr}
+  .role-inner .apply{grid-column:1}
+}
+@media (max-width:560px){
+  .steps{grid-template-columns:1fr}
+  .roles-top .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:calc(-1 * var(--gut-r));padding-right:var(--gut-r)}
+  .roles-top .chips::-webkit-scrollbar{display:none}
+}
+</style>
+</head>
+<body data-page="careers">
+<div id="site-nav"></div>
+
+<header class="page-hero careers-hero" id="top">
+  <div class="bg" aria-hidden="true"><div class="grid-bg"></div><div class="scanline"></div></div>
+  <div class="roster" aria-hidden="true"><span>Watch roster · <b>Open</b></span><span>Local <span data-clock="local">--:--:--</span></span></div>
+  <div class="wrap">
+    <div>
+      <span class="label hero-label">Careers</span>
+      <h1 class="display"><span class="line"><span>Join the watch.</span></span><span class="line"><span class="thin">Build what keeps agents safe.</span></span></h1>
+      <p class="hero-sub">We build the security layer that lets AI agents work without fear. If you care about precision and stay calm under pressure, there's a seat on the watch for you.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#roles">See open roles <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="btn btn-ghost" href="#hiring">How we hire</a>
+      </div>
+    </div>
+    <div class="open-count"><span class="num" data-count="7" data-pad="00">07</span><span class="label">Open roles</span></div>
+  </div>
+</header>
+
+<main>
+  <section class="sec" aria-labelledby="work-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">How we work</span><h2 class="title" id="work-h">Our values are <em>the job description.</em></h2></div>
+        <p class="lede">We hire for three things before any skill on a résumé. You will see them in every review, incident and launch.</p>
+      </div>
+      <div class="principles">
+        <article class="principle corners hoverable reveal">
+          <span class="code">VAL.01</span>
+          <h3>Vigilance</h3>
+          <p class="def">Always watching, never anxious.</p>
+          <p>You notice the small thing early. You would rather flag a risk on Tuesday than explain an incident on Friday, and you say it calmly.</p>
+        </article>
+        <article class="principle corners hoverable reveal">
+          <span class="code">VAL.02</span>
+          <h3>Precision</h3>
+          <p class="def">Every pixel, packet and word is deliberate.</p>
+          <p>You measure before you claim, write it down before you ship, and treat accuracy as part of the craft rather than a final check.</p>
+        </article>
+        <article class="principle corners hoverable reveal">
+          <span class="code">VAL.03</span>
+          <h3>Resilience</h3>
+          <p class="def">Systems that bend and recover.</p>
+          <p>You design for failure, recover fast, and run blameless reviews. You hold up in the incident room and in the boardroom.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec flush" id="roles" aria-labelledby="roles-h">
+    <div class="wrap">
+      <span class="label">Open roles</span>
+      <h2 class="title" id="roles-h">Find your post.</h2>
+      <div class="roles-top">
+        <div class="chips" role="group" aria-label="Filter roles by team" id="filters">
+          <button type="button" aria-pressed="true" data-team="all">All <span class="n">7</span></button>
+          <button type="button" aria-pressed="false" data-team="eng">Engineering <span class="n">2</span></button>
+          <button type="button" aria-pressed="false" data-team="research">Security research <span class="n">2</span></button>
+          <button type="button" aria-pressed="false" data-team="design">Design <span class="n">1</span></button>
+          <button type="button" aria-pressed="false" data-team="gtm">Go-to-market <span class="n">2</span></button>
+        </div>
+        <span class="roles-meta" id="rolesMeta" aria-live="polite">Showing 7 of 7</span>
+      </div>
+
+      <div class="role-list" id="roleList">
+        <article class="role" data-team="eng">
+          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Senior Rust Engineer, Policy Engine</span><span class="team">Engineering · Portcullis</span><span class="loc">Remote, Asia or Europe</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
+          <div class="role-body"><div><div class="role-inner">
+            <p>Own the engine that decides, in single-digit milliseconds, whether an agent's tool call runs, waits or stops.</p>
+            <ul><li>Design the policy language teams write and review in their repos</li><li>Keep p50 decision latency under 6 ms as rule sets grow</li><li>Build the replay tooling that proves a policy change is safe</li></ul>
+            <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+          </div></div></div>
+        </article>
+        <article class="role" data-team="eng">
+          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Staff Engineer, Agent Integrations</span><span class="team">Engineering · Platform</span><span class="loc">Remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
+          <div class="role-body"><div><div class="role-inner">
+            <p>Make Gatehouse feel native in every coding agent your customers use, from hooks to MCP gateways.</p>
+            <ul><li>Ship and maintain integrations for Claude Code, Codex, Cursor and more</li><li>Define how new agents get supported within a week of launch</li><li>Mentor engineers on protocol design and backwards compatibility</li></ul>
+            <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+          </div></div></div>
+        </article>
+        <article class="role" data-team="research">
+          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Security Researcher, Prompt Injection</span><span class="team">Security research · Warden</span><span class="loc">Remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
+          <div class="role-body"><div><div class="role-inner">
+            <p>Find the attacks before attackers do, then turn each finding into a detection that ships to every customer.</p>
+            <ul><li>Red-team agents through issues, docs, web pages and tool output</li><li>Build and maintain Warden's injection corpus and evals</li><li>Publish research the wider community can use</li></ul>
+            <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+          </div></div></div>
+        </article>
+        <article class="role" data-team="research">
+          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Supply-Chain Threat Analyst</span><span class="team">Security research · Sieve</span><span class="loc">Remote, Asia</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
+          <div class="role-body"><div><div class="role-inner">
+            <p>Watch the registries agents install from, and catch typosquats and hallucinated package names as they appear.</p>
+            <ul><li>Triage suspicious npm, PyPI and crates.io releases</li><li>Tune Sieve's provenance and reputation signals</li><li>Write advisories customers can act on the same day</li></ul>
+            <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+          </div></div></div>
+        </article>
+        <article class="role" data-team="design">
+          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Product Designer, Security UX</span><span class="team">Design</span><span class="loc">Remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
+          <div class="role-body"><div><div class="role-inner">
+            <p>Design approvals a developer can answer in one tap and dashboards a CISO can read in one glance.</p>
+            <ul><li>Own the approval flow across terminal, Slack and web</li><li>Shape the visual language of Logbook timelines</li><li>Test with real security and platform teams every sprint</li></ul>
+            <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+          </div></div></div>
+        </article>
+        <article class="role" data-team="gtm">
+          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Founding Solutions Engineer</span><span class="team">Go-to-market</span><span class="loc">Bengaluru or remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
+          <div class="role-body"><div><div class="role-inner">
+            <p>Run the demo against a customer's own repo, then stay with them until every agent is covered.</p>
+            <ul><li>Lead technical evaluations with security and platform teams</li><li>Write the policy packs new customers start from</li><li>Bring field feedback straight into the roadmap</li></ul>
+            <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+          </div></div></div>
+        </article>
+        <article class="role" data-team="gtm">
+          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Developer Advocate</span><span class="team">Go-to-market</span><span class="loc">Remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
+          <div class="role-body"><div><div class="role-inner">
+            <p>Teach developers to build fearlessly with agents, and show them what secure-by-default looks like in practice.</p>
+            <ul><li>Write guides, talks and sample policies</li><li>Run the open-source policy pack community</li><li>Turn real incidents into lessons, with permission</li></ul>
+            <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+          </div></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="hiring" aria-labelledby="hire-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">How we hire</span><h2 class="title" id="hire-h">Four steps. <em>No surprises.</em></h2></div>
+        <p class="lede">The same process for every role, so you always know what comes next and how long it takes.</p>
+      </div>
+      <div class="steps" id="steps">
+        <div class="step"><span class="n">1</span><h3>Intro call</h3><span class="dur">30 minutes</span><p>A conversation about your work, the role and what the watch looks like day to day.</p></div>
+        <div class="step"><span class="n">2</span><h3>Work sample</h3><span class="dur">About 3 hours</span><p>A realistic task from the team you'd join, done on your own time. No trick questions.</p></div>
+        <div class="step"><span class="n">3</span><h3>Team loop</h3><span class="dur">Half a day</span><p>Walk us through your sample, then meet the people you'd work with every week.</p></div>
+        <div class="step"><span class="n">4</span><h3>Decision</h3><span class="dur">Within a week</span><p>A clear yes or no with reasons, and an offer you can compare line by line.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="band-h">
+    <div class="wrap inner">
+      <h2 id="band-h">Don't see your post? <span>Write to us anyway.</span></h2>
+      <div class="side">
+        <p>Tell us what you'd build and why it would keep agents safer. Send it to careers@gatehouse.dev.</p>
+        <div class="row">
+          <button class="btn btn-primary" type="button" data-copy="careers@gatehouse.dev">Copy email <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          <a class="btn btn-ghost" href="about.html">Read our vision</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+(function(){
+  var GH = window.GH, reduce = GH.reduce;
+  var list = document.getElementById('roleList'), roles = [].slice.call(list.querySelectorAll('.role')), meta = document.getElementById('rolesMeta');
+  var filterBtns = [].slice.call(document.querySelectorAll('#filters button'));
+  var empty = document.createElement('p'); empty.className = 'empty'; empty.textContent = 'No open roles on this team right now. Write to careers@gatehouse.dev.'; empty.hidden = true; list.appendChild(empty);
+
+  /* filter with exit then staggered entry */
+  function filter(team){
+    filterBtns.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.team === team); });
+    var show = roles.filter(function(r){ return team === 'all' || r.dataset.team === team; });
+    var visible = roles.filter(function(r){ return !r.hidden; });
+    visible.forEach(function(r){ r.classList.remove('entering'); if (!reduce) r.classList.add('leaving'); });
+    setTimeout(function(){
+      roles.forEach(function(r){ r.classList.remove('leaving', 'entering'); r.hidden = show.indexOf(r) < 0; });
+      show.forEach(function(r, i){ r.style.setProperty('--i', i); void r.offsetWidth; if (!reduce) r.classList.add('entering'); });
+      empty.hidden = show.length > 0;
+      meta.textContent = 'Showing ' + show.length + ' of ' + roles.length;
+    }, reduce ? 0 : 200);
+  }
+  filterBtns.forEach(function(b){ b.addEventListener('click', function(){ filter(b.dataset.team); }); });
+
+  /* accordion */
+  roles.forEach(function(r){
+    var head = r.querySelector('.role-head');
+    head.addEventListener('click', function(){
+      var open = head.getAttribute('aria-expanded') === 'true';
+      roles.forEach(function(o){ o.querySelector('.role-head').setAttribute('aria-expanded', 'false'); o.classList.remove('open'); });
+      head.setAttribute('aria-expanded', open ? 'false' : 'true'); r.classList.toggle('open', !open);
+    });
+  });
+
+  /* timeline line draws in */
+  var steps = document.getElementById('steps');
+  if ('IntersectionObserver' in window && !reduce){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ steps.classList.add('in'); io.disconnect(); } }); }, {threshold: .3});
+    io.observe(steps);
+  } else steps.classList.add('in');
+})();
+</script>
+</body>
+</html>

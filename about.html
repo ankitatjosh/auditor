@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About Gatehouse</title>
+<meta name="description" content="Build fearlessly. We secure the rest. Gatehouse's vision, values and the watch that never sleeps.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Familjen+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+/* hero */
+.about-hero .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,var(--bg) 0%,rgba(5,5,5,.82) 28%,rgba(5,5,5,.15) 62%,rgba(5,5,5,0) 100%)}
+.about-hero .display{max-width:13ch}
+@media (min-width:900px){.about-hero .display{max-width:none}}
+
+/* vision */
+.vision-grid{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:24px 40px;align-items:start}
+.vision-text{margin:0;font:300 clamp(30px,3.8vw,60px)/1.12 var(--f-head);letter-spacing:-.02em;text-wrap:pretty}
+.vision-text .w{opacity:var(--o,1);transition:opacity .2s linear}
+.vision-text .k{font-weight:500}
+.vision-sub{grid-column:2;margin:12px 0 0;font-size:18px;line-height:1.6;color:var(--ink-2);max-width:42rem}
+.pillars{margin-top:clamp(64px,7vw,96px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.pillar{--fill:rgba(243,241,236,.018);padding:28px 26px 30px;min-height:300px;display:flex;flex-direction:column;gap:14px}
+.pillar .top{display:flex;justify-content:space-between;align-items:center}
+.pillar h3{margin-top:auto;font:500 clamp(24px,2.1vw,30px)/1.08 var(--f-head);letter-spacing:-.015em}
+.pillar p{margin:0;font-size:15.5px;color:var(--ink-2);max-width:36ch}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tags span{font:500 10.5px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;padding:6px 8px;border-radius:4px;border:1px solid var(--steel-line);color:var(--steel)}
+.glyph{width:44px;height:44px;color:var(--steel)}
+.glyph *{transition:transform .6s var(--ease),opacity .4s}
+.pillar:hover .g1 .r2{transform:scale(1.18)}
+.pillar:hover .g1 .r3{transform:scale(1.36);opacity:.25}
+.pillar:hover .g2 .bar{transform:translateY(-10px)}
+.pillar:hover .g3 .c2{transform:translateX(6px)}
+.pillar:hover .g3 .c3{transform:translateX(12px)}
+.glyph .r2,.glyph .r3{transform-origin:22px 22px}
+
+/* values console */
+.console > *{min-width:0}
+.console{margin-top:56px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:20px 40px;align-items:stretch}
+.vtabs{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.vtab{position:relative;display:grid;grid-template-columns:76px 1fr;gap:10px 12px;text-align:left;padding:26px 0 28px;background:none;border:0;border-bottom:1px solid var(--line);cursor:pointer;color:var(--ink-4);transition:color .35s}
+.vtab .code{padding-top:9px;color:var(--ink-4);transition:color .35s}
+.vtab .name{font:500 clamp(30px,2.8vw,44px)/1 var(--f-head);letter-spacing:-.02em}
+.vtab .desc{grid-column:2;font-size:15.5px;line-height:1.5;color:var(--ink-4);max-width:40ch;transition:color .35s}
+.vtab:hover{color:var(--ink-2)}
+.vtab[aria-selected="true"]{color:var(--ink)}
+.vtab[aria-selected="true"] .code{color:var(--live)}
+.vtab[aria-selected="true"] .desc{color:var(--ink-2)}
+.vtab .bar{position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--ink)}
+.vtab[aria-selected="true"] .bar{width:100%}
+.console.auto .vtab[aria-selected="true"] .bar{animation:fill 8s linear both}
+@keyframes fill{from{width:0}to{width:100%}}
+.screen{--fill:var(--screen);--c:rgba(160,190,215,.6);position:relative;display:flex;flex-direction:column;min-height:480px;box-shadow:inset 0 0 0 1px var(--steel-line)}
+.screen-top,.screen-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 18px;min-height:46px;font:500 11.5px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--steel);font-variant-numeric:tabular-nums}
+.screen-top{border-bottom:1px solid var(--steel-line)}
+.screen-foot{border-top:1px solid var(--steel-line);min-height:54px}
+.screen-foot .hint{color:var(--ink-4);letter-spacing:.1em}
+.screen canvas{flex:1;width:100%;min-height:0;display:block;cursor:crosshair;touch-action:none}
+#vlog{transition:color .3s}
+#vlog.risk{color:var(--deny)}
+#vlog.ok{color:var(--live)}
+
+/* watch ring */
+.watch-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(40px,6vw,96px);align-items:center}
+.ring-wrap{position:relative;justify-self:center;width:100%;max-width:540px}
+.ring{width:100%;height:auto;display:block;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;overflow:visible}
+.ring:active{cursor:grabbing}
+.ring:focus-visible{outline:none}
+.ring:focus-visible .track{stroke:var(--ink-3)}
+.ring text{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;fill:var(--ink-4)}
+.ring .big{font-family:var(--f-head);font-size:64px;font-weight:300;letter-spacing:-.02em;fill:var(--ink);font-variant-numeric:tabular-nums}
+.ring .sub{fill:var(--live);font-size:10.5px;letter-spacing:.2em}
+.ring .glint{animation:spin 40s linear infinite;transform-origin:200px 200px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cities{margin-top:36px;border-top:1px solid var(--line)}
+.city{display:grid;grid-template-columns:1fr auto 120px;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-size:15.5px;color:var(--ink-2)}
+.city .t{font:400 22px/1 var(--f-head);color:var(--ink);font-variant-numeric:tabular-nums}
+.city .st{display:flex;justify-content:flex-end;align-items:center;gap:8px;font:500 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4)}
+.city .st.on{color:var(--allow)}
+.city.us{color:var(--ink)}
+.city.us .st{color:var(--live)}
+.watch-actions{margin-top:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font:400 12.5px/1.4 var(--f-mono);color:var(--ink-4)}
+
+@media (max-width:1023px){
+  .console{grid-template-columns:1fr}
+  .vtabs{flex-direction:row;border-top:0;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+  .vtabs::-webkit-scrollbar{display:none}
+  .vtab{flex:1 0 auto;grid-template-columns:auto;border-bottom:0;padding:16px 18px 18px 0;gap:8px}
+  .vtab .code{padding-top:0}
+  .vtab .name{font-size:26px}
+  .vtab .desc{display:none}
+  .vdesc{display:block!important}
+  .screen{min-height:400px}
+}
+@media (max-width:899px){
+  .vision-grid{grid-template-columns:1fr}
+  .vision-sub{grid-column:1}
+  .pillars{grid-template-columns:1fr}
+  .pillar{min-height:0}
+  .watch-grid{grid-template-columns:1fr}
+  .ring-wrap{order:-1;max-width:420px}
+}
+@media (max-width:560px){
+  .screen{min-height:340px}
+  .city{grid-template-columns:1fr auto 96px;gap:10px;font-size:14.5px}
+  .city .t{font-size:19px}
+  .vtab{padding-right:14px}
+  .vtab .name{font-size:21px}
+  .screen-foot .hint{display:none}
+}
+.vdesc{display:none;margin:18px 0 0;font-size:16px;color:var(--ink-2);max-width:42ch;min-height:3em}
+</style>
+</head>
+<body data-page="about">
+<div id="site-nav"></div>
+
+<header class="page-hero about-hero" id="top">
+  <div class="bg" aria-hidden="true"><canvas id="net"></canvas></div>
+  <div class="wrap">
+    <span class="label bare hero-label"><span class="dot pulse"></span>About Gatehouse · Watch active</span>
+    <h1 class="display"><span class="line"><span>Build Fearlessly.</span></span><span class="line"><span class="thin">We Secure the Rest.</span></span></h1>
+    <p class="hero-sub">Your AI agents never need to pause for peace of mind. You build, innovate, and execute. We provide the security and vigilance that keep your projects moving — 24/7.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#vision">Read our vision <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+      <a class="btn btn-ghost" href="careers.html">Join the watch</a>
+    </div>
+  </div>
+  <div class="hud-read" aria-hidden="true"><span>Local <b data-clock="local">--:--:--</b></span><span>UTC <b data-clock="utc">--:--:--</b></span></div>
+</header>
+
+<main>
+  <section class="sec" id="vision" aria-labelledby="vision-h">
+    <div class="wrap">
+      <div class="vision-grid">
+        <span class="label" id="vision-h">Our vision</span>
+        <p class="vision-text" id="visionText">To empower every AI agent to build with <span class="k">freedom</span> and execute with <span class="k">confidence</span>, knowing that <span class="k">security never sleeps.</span></p>
+        <p class="vision-sub">We safeguard the environment, protect the execution, and keep innovation moving — at every hour, every milestone, and every step.</p>
+      </div>
+
+      <div class="pillars">
+        <article class="pillar corners hoverable reveal">
+          <div class="top"><span class="code">Environment</span>
+            <svg class="glyph g1" viewBox="0 0 44 44" aria-hidden="true"><rect class="r1" x="17" y="17" width="10" height="10" fill="currentColor"/><rect class="r2" x="11" y="11" width="22" height="22" fill="none" stroke="currentColor"/><rect class="r3" x="5" y="5" width="34" height="34" fill="none" stroke="currentColor" opacity=".5"/></svg></div>
+          <h3>Safeguard the environment</h3>
+          <p>What an agent reads and installs is checked first. Injected instructions and poisoned packages never reach the context window.</p>
+          <div class="tags"><span>Warden</span><span>Sieve</span></div>
+        </article>
+        <article class="pillar corners hoverable reveal">
+          <div class="top"><span class="code">Execution</span>
+            <svg class="glyph g2" viewBox="0 0 44 44" aria-hidden="true"><path d="M6 40V8h32v32" fill="none" stroke="currentColor"/><g class="bar"><path d="M12 14v26M19 14v26M26 14v26M33 14v26" stroke="currentColor" opacity=".7"/><path d="M8 22h28" stroke="currentColor"/></g></svg></div>
+          <h3>Protect the execution</h3>
+          <p>Every shell command, file write and network call passes a policy. Risky actions wait for a human. The rest run without friction.</p>
+          <div class="tags"><span>Portcullis</span></div>
+        </article>
+        <article class="pillar corners hoverable reveal">
+          <div class="top"><span class="code">Momentum</span>
+            <svg class="glyph g3" viewBox="0 0 44 44" aria-hidden="true"><path class="c1" d="M6 12l10 10-10 10" fill="none" stroke="currentColor" opacity=".4"/><path class="c2" d="M14 12l10 10-10 10" fill="none" stroke="currentColor" opacity=".7"/><path class="c3" d="M22 12l10 10-10 10" fill="none" stroke="currentColor"/></svg></div>
+          <h3>Keep innovation moving</h3>
+          <p>Each session becomes signed evidence, so security reviews take minutes and your team keeps shipping at every milestone.</p>
+          <div class="tags"><span>Logbook</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec flush" id="values" aria-labelledby="values-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">Our values</span><h2 class="title" id="values-h">Three values. <em>Tested in incident rooms.</em></h2></div>
+        <p class="lede">Each value has its own console. Pick one, then try it: click the radar, move across the grid, or inject a fault.</p>
+      </div>
+
+      <div class="console auto" id="console">
+        <div>
+          <div class="vtabs" role="tablist" aria-label="Values">
+            <button class="vtab" role="tab" id="tab-0" aria-selected="true" aria-controls="vpanel" data-i="0"><span class="code">VAL.01</span><span class="name">Vigilance</span><span class="desc">Always watching, never anxious. We surface risk early with calm, constant visibility.</span><i class="bar"></i></button>
+            <button class="vtab" role="tab" id="tab-1" aria-selected="false" aria-controls="vpanel" data-i="1" tabindex="-1"><span class="code">VAL.02</span><span class="name">Precision</span><span class="desc">Every pixel, packet and word is deliberate. Accuracy is our aesthetic.</span><i class="bar"></i></button>
+            <button class="vtab" role="tab" id="tab-2" aria-selected="false" aria-controls="vpanel" data-i="2" tabindex="-1"><span class="code">VAL.03</span><span class="name">Resilience</span><span class="desc">Systems that bend and recover. The brand holds up in incident rooms and boardrooms alike.</span><i class="bar"></i></button>
+          </div>
+          <p class="vdesc" id="vdesc">Always watching, never anxious. We surface risk early with calm, constant visibility.</p>
+        </div>
+        <div class="screen corners" id="vpanel" role="tabpanel" aria-labelledby="tab-0">
+          <div class="screen-top"><span id="vtitle">VAL.01 · Vigilance</span><span id="vread">Sweep 000°</span></div>
+          <canvas id="vcanvas" aria-label="Animated radar: a sweep passes over seven agent sessions and flags one risk"></canvas>
+          <div class="screen-foot"><span id="vlog">Scanning 7 sessions</span><span class="hint" id="vhint">Click to drop a probe</span><button class="mini" type="button" id="vfault" hidden>Inject fault</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec rule" id="watch" aria-labelledby="watch-h">
+    <div class="wrap watch-grid">
+      <div>
+        <span class="label">24 / 7 / 365</span>
+        <h2 class="title" id="watch-h">Security never sleeps.</h2>
+        <p class="lede">Someone on your team is always shipping, in some time zone. Drag the hand to any hour: whoever is awake, the watch is on.</p>
+        <div class="cities" id="cities" aria-live="polite"></div>
+        <div class="watch-actions"><button class="mini" type="button" id="nowBtn" hidden>Back to now</button><span id="watchNote">Showing your local time, live.</span></div>
+      </div>
+      <div class="ring-wrap">
+        <svg class="ring" id="ring" viewBox="0 0 400 400" role="slider" tabindex="0" aria-label="Time of day" aria-valuemin="0" aria-valuemax="1439" aria-valuenow="0" aria-valuetext="00:00">
+          <defs>
+            <linearGradient id="glintG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3ee0a1" stop-opacity="0"/><stop offset="1" stop-color="#3ee0a1" stop-opacity=".9"/></linearGradient>
+          </defs>
+          <circle class="track" cx="200" cy="200" r="168" fill="none" stroke="rgba(160,190,215,.18)" stroke-width="1"/>
+          <circle cx="200" cy="200" r="168" fill="none" stroke="#3ee0a1" stroke-opacity=".5" stroke-width="2" stroke-dasharray="2 6.8"/>
+          <g class="glint"><path d="M200 32 A168 168 0 0 1 345.5 116" fill="none" stroke="url(#glintG)" stroke-width="2"/></g>
+          <g id="ticks"></g>
+          <circle cx="200" cy="200" r="118" fill="none" stroke="rgba(160,190,215,.1)"/>
+          <line id="hand" x1="200" y1="200" x2="200" y2="32" stroke="#f3f1ec" stroke-width="1.5"/>
+          <circle id="knob" cx="200" cy="32" r="9" fill="#050505" stroke="#f3f1ec" stroke-width="1.5"/>
+          <circle cx="200" cy="200" r="3" fill="#f3f1ec"/>
+          <text class="big" id="ringTime" x="200" y="214" text-anchor="middle">00:00</text>
+          <text class="sub" x="200" y="244" text-anchor="middle">WATCH ON</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="band-h">
+    <div class="wrap inner">
+      <h2 id="band-h">Build fearlessly. <span>We'll hold the watch.</span></h2>
+      <div class="side">
+        <p>See Gatehouse run against your own repo, or come help us build it.</p>
+        <div class="row">
+          <a class="btn btn-primary" href="contact.html">Talk to us <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          <a class="btn btn-ghost" href="careers.html">See open roles</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+(function(){
+  var GH = window.GH, reduce = GH.reduce;
+  var STEEL = '159,180,198', LIVE = '62,224,161', DENY = '255,122,99', INK = '243,241,236';
+
+  /* ───── hero: dotted field with session arcs ───── */
+  (function(){
+    var hero = document.querySelector('.about-hero'), cv = document.getElementById('net'), ctx = cv.getContext('2d');
+    var W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 1.5), dots = [], nodes = [], arcs = [], mx = -1e4, my = -1e4, raf = 0, last = 0, spawn = 0;
+    function field(x, y){ return Math.sin(x * .0061) + Math.sin(y * .0093 + 1.3) + Math.sin((x + y) * .0041 + 2.1) + .8 * Math.sin(x * .013 - y * .0072); }
+    function size(){
+      W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      dots = []; nodes = [];
+      var s = W < 700 ? 15 : 19, x0 = W < 900 ? 0 : W * .3;
+      for (var y = s; y < H - s; y += s) for (var x = x0 + s / 2; x < W; x += s){
+        var n = field(x, y); if (n > .35){ dots.push({x: x, y: y, a: Math.min(1, (n - .35) * .9)}); }
+      }
+      for (var i = 0; i < 22 && dots.length; i++) nodes.push(dots[(Math.random() * dots.length) | 0]);
+    }
+    function addArc(){
+      if (nodes.length < 2) return;
+      var a = nodes[(Math.random() * nodes.length) | 0], b = nodes[(Math.random() * nodes.length) | 0];
+      if (a === b) return;
+      var d = Math.hypot(b.x - a.x, b.y - a.y); if (d < 80) return;
+      arcs.push({a: a, b: b, cx: (a.x + b.x) / 2, cy: Math.min(a.y, b.y) - d * .35, t: 0, live: Math.random() < .25, risk: Math.random() < .07});
+    }
+    function qp(A, t){ var u = 1 - t; return [u * u * A.a.x + 2 * u * t * A.cx + t * t * A.b.x, u * u * A.a.y + 2 * u * t * A.cy + t * t * A.b.y]; }
+    function draw(now){
+      var dt = Math.min(.05, (now - (last || now)) / 1000); last = now;
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < dots.length; i++){
+        var p = dots[i], d = Math.hypot(p.x - mx, p.y - my), boost = d < 140 ? (1 - d / 140) : 0;
+        ctx.fillStyle = 'rgba(' + STEEL + ',' + (.16 + p.a * .3 + boost * .5) + ')';
+        var r = 1.1 + boost * 1.2; ctx.fillRect(p.x - r / 2, p.y - r / 2, r, r);
+      }
+      for (var j = 0; j < nodes.length; j++){ var n = nodes[j]; ctx.fillStyle = 'rgba(' + INK + ',.75)'; ctx.fillRect(n.x - 1.5, n.y - 1.5, 3, 3); }
+      spawn -= dt; if (spawn <= 0 && !reduce){ addArc(); spawn = .5 + Math.random() * .6; }
+      for (var k = arcs.length - 1; k >= 0; k--){
+        var A = arcs[k]; A.t += dt / 2.2;
+        var col = A.risk ? DENY : A.live ? LIVE : STEEL, head = Math.min(1, A.t), tail = Math.max(0, A.t - .55), fade = A.t > 1 ? Math.max(0, 1 - (A.t - 1) / .5) : 1;
+        ctx.beginPath(); var st = qp(A, tail); ctx.moveTo(st[0], st[1]);
+        for (var s = tail; s <= head; s += .02){ var q = qp(A, s); ctx.lineTo(q[0], q[1]); }
+        ctx.strokeStyle = 'rgba(' + col + ',' + (.5 * fade) + ')'; ctx.lineWidth = 1; ctx.stroke();
+        if (A.t <= 1){ var h = qp(A, head); ctx.fillStyle = 'rgba(' + col + ',.95)'; ctx.beginPath(); ctx.arc(h[0], h[1], 2, 0, 7); ctx.fill(); }
+        else { var rr = (A.t - 1) * 40; ctx.strokeStyle = 'rgba(' + col + ',' + (.6 * fade) + ')'; ctx.beginPath(); ctx.arc(A.b.x, A.b.y, rr, 0, 7); ctx.stroke(); }
+        if (A.t > 1.5) arcs.splice(k, 1);
+      }
+      raf = reduce ? 0 : requestAnimationFrame(draw);
+    }
+    size(); for (var i = 0; i < 6; i++){ addArc(); arcs[arcs.length - 1] && (arcs[arcs.length - 1].t = Math.random() * .9); }
+    window.addEventListener('resize', function(){ size(); if (reduce) draw(performance.now()); });
+    hero.addEventListener('pointermove', function(e){ var r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
+    hero.addEventListener('pointerleave', function(){ mx = my = -1e4; });
+    if (reduce) draw(performance.now());
+    else GH.whileVisible(hero, function(){ if (!raf){ last = 0; raf = requestAnimationFrame(draw); } }, function(){ cancelAnimationFrame(raf); raf = 0; });
+  })();
+
+  /* ───── vision: words light up as you read ───── */
+  (function(){
+    var el = document.getElementById('visionText'), words = [];
+    function wrap(node){
+      Array.prototype.slice.call(node.childNodes).forEach(function(c){
+        if (c.nodeType === 3){
+          var frag = document.createDocumentFragment();
+          c.textContent.split(/(\s+)/).forEach(function(t){ if (!t) return; if (/^\s+$/.test(t)) frag.appendChild(document.createTextNode(t)); else { var s = document.createElement('span'); s.className = 'w'; s.textContent = t; frag.appendChild(s); words.push(s); } });
+          node.replaceChild(frag, c);
+        } else if (c.nodeType === 1) wrap(c);
+      });
+    }
+    if (reduce) return;
+    wrap(el);
+    function update(){
+      var r = el.getBoundingClientRect(), vh = window.innerHeight;
+      var p = Math.max(0, Math.min(1, (vh * .82 - r.top) / (r.height + vh * .3)));
+      var lit = p * (words.length + 4);
+      for (var i = 0; i < words.length; i++){ var o = Math.max(.28, Math.min(1, lit - i)); words[i].style.setProperty('--o', o.toFixed(2)); }
+    }
+    window.addEventListener('scroll', update, {passive: true}); window.addEventListener('resize', update); update();
+  })();
+
+  /* ───── values console ───── */
+  (function(){
+    var consoleEl = document.getElementById('console'), tabs = [].slice.call(document.querySelectorAll('.vtab'));
+    var cv = document.getElementById('vcanvas'), ctx = cv.getContext('2d'), panel = document.getElementById('vpanel');
+    var vtitle = document.getElementById('vtitle'), vread = document.getElementById('vread'), vlog = document.getElementById('vlog'), vhint = document.getElementById('vhint'), vfault = document.getElementById('vfault'), vdesc = document.getElementById('vdesc');
+    var MODES = [
+      {title: 'VAL.01 · Vigilance', hint: 'Click to drop a probe', label: 'Animated radar: a sweep passes over agent sessions and flags one risk'},
+      {title: 'VAL.02 · Precision', hint: 'Move across the grid', label: 'Animated targeting grid: a crosshair snaps to grid points with a live position readout'},
+      {title: 'VAL.03 · Resilience', hint: '', label: 'Animated signal line: faults cause a dip that recovers, with the recovery time shown'}
+    ];
+    var mode = 0, W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), raf = 0, last = 0, auto = true, autoT = 0, px = null, py = null;
+    function size(){ W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); resetRes(); if (!raf && typeof frame === 'function'){ last = 0; frame(performance.now()); cancelAnimationFrame(raf); raf = 0; } }
+    function setLog(text, cls){ if (vlog._txt === text) return; vlog._txt = text; vlog.className = cls || ''; GH.scramble(vlog, text); }
+
+    /* vigilance */
+    var sweep = 0, blips = [];
+    function seedBlips(){ blips = [[.32,.6],[.55,1.9],[.8,2.65],[.46,3.55,1],[.68,4.4],[.24,5.2],[.88,5.85]].map(function(b){ return {r: b[0], a: b[1], risk: !!b[2], lit: 0}; }); }
+    seedBlips();
+    function drawVig(dt){
+      var cx = W / 2, cy = H / 2, R = Math.min(W, H) * .42, prev = sweep;
+      sweep = (sweep + dt * 1.05) % (Math.PI * 2);
+      ctx.strokeStyle = 'rgba(' + STEEL + ',.18)'; ctx.lineWidth = 1;
+      for (var i = 1; i <= 4; i++){ ctx.beginPath(); ctx.arc(cx, cy, R * i / 4, 0, 7); ctx.stroke(); }
+      ctx.beginPath(); ctx.moveTo(cx - R, cy); ctx.lineTo(cx + R, cy); ctx.moveTo(cx, cy - R); ctx.lineTo(cx, cy + R); ctx.stroke();
+      for (var t = 0; t < 72; t++){ var ang = t / 72 * Math.PI * 2, l = t % 6 ? 4 : 9; ctx.beginPath(); ctx.moveTo(cx + Math.cos(ang) * R, cy + Math.sin(ang) * R); ctx.lineTo(cx + Math.cos(ang) * (R + l), cy + Math.sin(ang) * (R + l)); ctx.stroke(); }
+      for (var k = 0; k < 36; k++){
+        var a0 = sweep - k * .025, a1 = a0 - .026;
+        ctx.fillStyle = 'rgba(' + LIVE + ',' + (.16 * (1 - k / 36)) + ')';
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, R, a1, a0); ctx.closePath(); ctx.fill();
+      }
+      ctx.strokeStyle = 'rgba(' + LIVE + ',.8)'; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(sweep) * R, cy + Math.sin(sweep) * R); ctx.stroke();
+      for (var b = 0; b < blips.length; b++){
+        var B = blips[b], passed = prev <= sweep ? (B.a > prev && B.a <= sweep) : (B.a > prev || B.a <= sweep);
+        if (passed){ B.lit = 1; if (B.risk) setLog('Risk surfaced · bearing ' + String(Math.round(B.a * 180 / Math.PI)).padStart(3, '0') + '° · early', 'risk'); else if (!B.probe) setLog(blips.length + ' sessions · nominal', 'ok'); else setLog('Probe confirmed · clear', 'ok'); }
+        B.lit = Math.max(0, B.lit - dt * .45);
+        var x = cx + Math.cos(B.a) * B.r * R, y = cy + Math.sin(B.a) * B.r * R, col = B.risk ? DENY : B.probe ? INK : LIVE;
+        ctx.fillStyle = 'rgba(' + col + ',' + (.25 + B.lit * .75) + ')'; ctx.beginPath(); ctx.arc(x, y, 2.5 + B.lit * 2.5, 0, 7); ctx.fill();
+        if (B.lit > .02){ ctx.strokeStyle = 'rgba(' + col + ',' + B.lit * .5 + ')'; ctx.beginPath(); ctx.arc(x, y, 6 + (1 - B.lit) * 18, 0, 7); ctx.stroke(); }
+        if (B.risk && B.lit > .1){ ctx.fillStyle = 'rgba(' + DENY + ',' + B.lit + ')'; ctx.font = '500 10px "IBM Plex Mono", monospace'; ctx.fillText('RISK · SESSION 7F3A', x + 12, y - 8); }
+      }
+      vread.textContent = 'Sweep ' + String(Math.round(sweep * 180 / Math.PI)).padStart(3, '0') + '°';
+    }
+    function probe(x, y){
+      var cx = W / 2, cy = H / 2, R = Math.min(W, H) * .42, r = Math.hypot(x - cx, y - cy) / R; if (r > 1) return;
+      var a = Math.atan2(y - cy, x - cx); if (a < 0) a += Math.PI * 2;
+      blips.push({r: r, a: a, probe: true, lit: 1}); if (blips.length > 14) blips.splice(7, 1);
+      setLog('Probe placed · bearing ' + String(Math.round(a * 180 / Math.PI)).padStart(3, '0') + '°', '');
+    }
+
+    /* precision */
+    var cx2 = 0, cy2 = 0, tx = 0, ty = 0, retarget = 0;
+    function drawPre(dt){
+      var g = W < 500 ? 20 : 24;
+      ctx.lineWidth = 1;
+      for (var x = 0; x <= W; x += g){ ctx.strokeStyle = 'rgba(' + STEEL + ',' + ((x / g) % 4 ? .07 : .16) + ')'; ctx.beginPath(); ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, H); ctx.stroke(); }
+      for (var y = 0; y <= H; y += g){ ctx.strokeStyle = 'rgba(' + STEEL + ',' + ((y / g) % 4 ? .07 : .16) + ')'; ctx.beginPath(); ctx.moveTo(0, y + .5); ctx.lineTo(W, y + .5); ctx.stroke(); }
+      if (px !== null){ tx = Math.round(px / g) * g; ty = Math.round(py / g) * g; }
+      else { retarget -= dt; if (retarget <= 0){ tx = g * (2 + ((Math.random() * (W / g - 4)) | 0)); ty = g * (2 + ((Math.random() * (H / g - 4)) | 0)); retarget = 1.9; } }
+      var k = 1 - Math.pow(1 - .14, dt * 60); cx2 += (tx - cx2) * k; cy2 += (ty - cy2) * k;
+      var delta = Math.hypot(tx - cx2, ty - cy2);
+      var s = g * 1.5, lockC = delta < .5 ? LIVE : INK;
+      ctx.strokeStyle = 'rgba(' + lockC + ',.9)';
+      [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(function(c){ ctx.beginPath(); ctx.moveTo(tx + c[0] * s, ty + c[1] * s - c[1] * 8); ctx.lineTo(tx + c[0] * s, ty + c[1] * s); ctx.lineTo(tx + c[0] * s - c[0] * 8, ty + c[1] * s); ctx.stroke(); });
+      ctx.strokeStyle = 'rgba(' + INK + ',.35)'; ctx.setLineDash([3, 4]);
+      ctx.beginPath(); ctx.moveTo(0, cy2); ctx.lineTo(W, cy2); ctx.moveTo(cx2, 0); ctx.lineTo(cx2, H); ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle = 'rgba(' + INK + ',.95)'; ctx.beginPath(); ctx.arc(cx2, cy2, 7, 0, 7); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx2 - 14, cy2); ctx.lineTo(cx2 - 4, cy2); ctx.moveTo(cx2 + 4, cy2); ctx.lineTo(cx2 + 14, cy2); ctx.moveTo(cx2, cy2 - 14); ctx.lineTo(cx2, cy2 - 4); ctx.moveTo(cx2, cy2 + 4); ctx.lineTo(cx2, cy2 + 14); ctx.stroke();
+      ctx.fillStyle = 'rgba(' + STEEL + ',.85)'; ctx.font = '500 10px "IBM Plex Mono", monospace';
+      ctx.fillText('X ' + String(Math.round(cx2)).padStart(4, '0'), Math.min(cx2 + 12, W - 64), 14);
+      ctx.fillText('Y ' + String(Math.round(cy2)).padStart(4, '0'), 6, Math.max(cy2 - 8, 24));
+      vread.textContent = 'Δ ' + delta.toFixed(1) + 'px';
+      if (delta < .5) setLog('Locked · ±0.0px', 'ok'); else if (delta > 6) setLog('Acquiring target', '');
+    }
+
+    /* resilience */
+    var samples = [], disp = 0, vel = 0, faultAt = 0, faultOpen = false, nextFault = 2.2, tt = 0;
+    function resetRes(){ var n = Math.max(40, Math.floor(W / 3)); samples = []; for (var i = 0; i < n; i++) samples.push({v: 0, f: false}); }
+    function fault(){ vel -= 3.4 + Math.random() * .8; faultAt = performance.now(); faultOpen = true; samples[samples.length - 1].f = true; setLog('Fault injected · absorbing', 'risk'); nextFault = 5.5; }
+    function drawRes(dt){
+      tt += dt;
+      var steps = Math.max(1, Math.round(dt * 60));
+      for (var s = 0; s < steps; s++){
+        var h = dt / steps; vel += (-26 * disp - 5.2 * vel) * h; disp += vel * h;
+        samples.shift(); samples.push({v: disp + Math.sin(tt * 3.1) * .012 + (Math.random() - .5) * .01, f: false});
+      }
+      if (auto || px === null){ nextFault -= dt; if (nextFault <= 0) fault(); }
+      if (faultOpen && Math.abs(disp) < .006 && Math.abs(vel) < .04 && performance.now() - faultAt > 300){ faultOpen = false; setLog('Recovered in ' + ((performance.now() - faultAt) / 1000).toFixed(2) + 's', 'ok'); }
+      var mid = H * .48, amp = H * .34, step = W / (samples.length - 1);
+      ctx.fillStyle = 'rgba(' + LIVE + ',.05)'; ctx.fillRect(0, mid - amp * .12, W, amp * .24);
+      ctx.strokeStyle = 'rgba(' + STEEL + ',.2)'; ctx.setLineDash([2, 5]); ctx.beginPath(); ctx.moveTo(0, mid - amp * .12); ctx.lineTo(W, mid - amp * .12); ctx.moveTo(0, mid + amp * .12); ctx.lineTo(W, mid + amp * .12); ctx.stroke(); ctx.setLineDash([]);
+      ctx.beginPath();
+      for (var i = 0; i < samples.length; i++){ var x = i * step, y = mid - samples[i].v * amp; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+      var grd = ctx.createLinearGradient(0, mid - amp, 0, H); grd.addColorStop(0, 'rgba(' + LIVE + ',.16)'); grd.addColorStop(1, 'rgba(' + LIVE + ',0)');
+      ctx.save(); ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath(); ctx.fillStyle = grd; ctx.fill(); ctx.restore();
+      ctx.beginPath();
+      for (var j = 0; j < samples.length; j++){ var x2 = j * step, y2 = mid - samples[j].v * amp; j ? ctx.lineTo(x2, y2) : ctx.moveTo(x2, y2); }
+      ctx.strokeStyle = 'rgba(' + INK + ',.95)'; ctx.lineWidth = 1.5; ctx.stroke(); ctx.lineWidth = 1;
+      for (var m = 0; m < samples.length; m++) if (samples[m].f){ ctx.strokeStyle = 'rgba(' + DENY + ',.8)'; ctx.beginPath(); ctx.moveTo(m * step, 12); ctx.lineTo(m * step, H - 12); ctx.stroke(); ctx.fillStyle = 'rgba(' + DENY + ',.9)'; ctx.font = '500 10px "IBM Plex Mono", monospace'; ctx.fillText('FAULT', m * step + 6, 22); }
+      var health = Math.max(0, 100 - Math.abs(disp) * 60);
+      vread.textContent = 'Health ' + health.toFixed(1) + '%';
+      var lastY = mid - samples[samples.length - 1].v * amp; ctx.fillStyle = 'rgba(' + INK + ',1)'; ctx.beginPath(); ctx.arc(W - 2, lastY, 3, 0, 7); ctx.fill();
+    }
+
+    function frame(now){
+      var dt = Math.min(.05, (now - (last || now)) / 1000); last = now;
+      ctx.clearRect(0, 0, W, H);
+      if (mode === 0) drawVig(dt); else if (mode === 1) drawPre(dt); else drawRes(dt);
+      if (auto){ autoT += dt; if (autoT >= 8){ select((mode + 1) % 3, false); } }
+      raf = reduce ? 0 : requestAnimationFrame(frame);
+    }
+    function select(i, user){
+      mode = i; autoT = 0;
+      tabs.forEach(function(t, k){ t.setAttribute('aria-selected', k === i); t.tabIndex = k === i ? 0 : -1; });
+      panel.setAttribute('aria-labelledby', 'tab-' + i); cv.setAttribute('aria-label', MODES[i].label);
+      vtitle.textContent = MODES[i].title; vhint.textContent = MODES[i].hint; vhint.hidden = i === 2; vfault.hidden = i !== 2;
+      vdesc.textContent = tabs[i].querySelector('.desc').textContent;
+      vlog._txt = ''; setLog(i === 0 ? 'Scanning ' + blips.length + ' sessions' : i === 1 ? 'Acquiring target' : 'Signal nominal', '');
+      if (i === 1){ cx2 = W / 2; cy2 = H / 2; retarget = 0; }
+      if (i === 2){ resetRes(); disp = vel = 0; nextFault = 1.6; }
+      consoleEl.classList.remove('auto'); void consoleEl.offsetWidth; if (auto) consoleEl.classList.add('auto');
+      if (user) stopAuto();
+      if (reduce){ ctx.clearRect(0, 0, W, H); last = 0; frame(performance.now()); }
+    }
+    function stopAuto(){ auto = false; consoleEl.classList.remove('auto'); }
+    tabs.forEach(function(t, i){
+      t.addEventListener('click', function(){ select(i, true); });
+      t.addEventListener('keydown', function(e){ var d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0; if (d){ e.preventDefault(); var n = (i + d + 3) % 3; select(n, true); tabs[n].focus(); } });
+    });
+    cv.addEventListener('pointermove', function(e){ var r = cv.getBoundingClientRect(); px = e.clientX - r.left; py = e.clientY - r.top; if (mode === 1) stopAuto(); });
+    cv.addEventListener('pointerleave', function(){ px = py = null; });
+    cv.addEventListener('pointerdown', function(e){ stopAuto(); var r = cv.getBoundingClientRect(); if (mode === 0) probe(e.clientX - r.left, e.clientY - r.top); else if (mode === 2) fault(); });
+    vfault.addEventListener('click', function(){ stopAuto(); fault(); });
+    size(); window.addEventListener('resize', size);
+    last = 0; frame(performance.now()); cancelAnimationFrame(raf); raf = 0;
+    if (reduce){ auto = false; consoleEl.classList.remove('auto'); select(0, false); }
+    else GH.whileVisible(panel, function(){ if (!raf){ last = 0; raf = requestAnimationFrame(frame); } }, function(){ cancelAnimationFrame(raf); raf = 0; });
+  })();
+
+  /* ───── 24-hour watch ring ───── */
+  (function(){
+    var svg = document.getElementById('ring'), ticks = document.getElementById('ticks'), hand = document.getElementById('hand'), knob = document.getElementById('knob'), timeEl = document.getElementById('ringTime');
+    var citiesEl = document.getElementById('cities'), nowBtn = document.getElementById('nowBtn'), note = document.getElementById('watchNote');
+    var NS = 'http://www.w3.org/2000/svg', C = 200, R = 168, live = true, minutes = 0;
+    var CITIES = [['Bengaluru','Asia/Kolkata'],['Singapore','Asia/Singapore'],['Berlin','Europe/Berlin'],['London','Europe/London'],['New York','America/New_York'],['San Francisco','America/Los_Angeles']];
+    for (var i = 0; i < 96; i++){
+      var a = i / 96 * Math.PI * 2 - Math.PI / 2, major = i % 4 === 0, len = i % 12 === 0 ? 14 : major ? 8 : 3;
+      var l = document.createElementNS(NS, 'line');
+      l.setAttribute('x1', C + Math.cos(a) * (R - 6)); l.setAttribute('y1', C + Math.sin(a) * (R - 6));
+      l.setAttribute('x2', C + Math.cos(a) * (R - 6 - len)); l.setAttribute('y2', C + Math.sin(a) * (R - 6 - len));
+      l.setAttribute('stroke', major ? 'rgba(243,241,236,.45)' : 'rgba(160,190,215,.25)'); ticks.appendChild(l);
+      if (i % 12 === 0){
+        var t = document.createElementNS(NS, 'text'); t.setAttribute('x', C + Math.cos(a) * (R - 36)); t.setAttribute('y', C + Math.sin(a) * (R - 36) + 4); t.setAttribute('text-anchor', 'middle');
+        t.textContent = GH.pad(i / 4); ticks.appendChild(t);
+      }
+    }
+    CITIES.forEach(function(c){ var row = document.createElement('div'); row.className = 'city'; row.innerHTML = '<span>' + c[0] + '</span><span class="t">--:--</span><span class="st">--</span>'; citiesEl.appendChild(row); c.row = row; });
+    var us = document.createElement('div'); us.className = 'city us'; us.innerHTML = '<span>Gatehouse</span><span class="t">24/7</span><span class="st"><span class="dot pulse"></span>Watching</span>'; citiesEl.appendChild(us);
+    function fmt(d, tz){ try { return new Intl.DateTimeFormat('en-GB', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: tz}).format(d); } catch (e){ return '--:--'; } }
+    function render(){
+      var ang = minutes / 1440 * Math.PI * 2 - Math.PI / 2, x = C + Math.cos(ang) * R, y = C + Math.sin(ang) * R;
+      hand.setAttribute('x2', x); hand.setAttribute('y2', y); knob.setAttribute('cx', x); knob.setAttribute('cy', y);
+      var label = GH.pad(Math.floor(minutes / 60)) + ':' + GH.pad(minutes % 60);
+      timeEl.textContent = label; svg.setAttribute('aria-valuenow', minutes); svg.setAttribute('aria-valuetext', label + ' your time');
+      var d = new Date(); d.setHours(Math.floor(minutes / 60), minutes % 60, 0, 0);
+      CITIES.forEach(function(c){
+        var t = fmt(d, c[1]), h = parseInt(t, 10), st = c.row.querySelector('.st');
+        c.row.querySelector('.t').textContent = t;
+        var state = h >= 8 && h < 19 ? 'Shipping' : h >= 19 && h < 23 ? 'Off hours' : 'Asleep';
+        if (st.textContent !== state){ st.textContent = state; st.classList.toggle('on', state === 'Shipping'); }
+      });
+    }
+    function now(){ var d = new Date(); minutes = d.getHours() * 60 + d.getMinutes(); render(); }
+    function setLive(v){ live = v; nowBtn.hidden = v; note.textContent = v ? 'Showing your local time, live.' : 'Scrubbing the clock. The watch stays on.'; if (v) now(); }
+    now(); setInterval(function(){ if (live) now(); }, 15000);
+    function fromPointer(e){
+      var r = svg.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 400 - C, y = (e.clientY - r.top) / r.height * 400 - C;
+      var a = Math.atan2(y, x) + Math.PI / 2; if (a < 0) a += Math.PI * 2;
+      minutes = Math.round(a / (Math.PI * 2) * 1440 / 15) * 15 % 1440; render();
+    }
+    var dragging = false;
+    svg.addEventListener('pointerdown', function(e){ dragging = true; svg.setPointerCapture(e.pointerId); setLive(false); fromPointer(e); });
+    svg.addEventListener('pointermove', function(e){ if (dragging) fromPointer(e); });
+    svg.addEventListener('pointerup', function(){ dragging = false; });
+    svg.addEventListener('keydown', function(e){
+      var d = {ArrowRight: 15, ArrowUp: 15, ArrowLeft: -15, ArrowDown: -15, PageUp: 60, PageDown: -60}[e.key];
+      if (d){ e.preventDefault(); setLive(false); minutes = (minutes + d + 1440) % 1440; render(); }
+      if (e.key === 'Home'){ e.preventDefault(); setLive(true); }
+    });
+    nowBtn.addEventListener('click', function(){ setLive(true); });
+  })();
+})();
+</script>
+</body>
+</html>

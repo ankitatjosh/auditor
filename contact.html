@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact Gatehouse</title>
+<meta name="description" content="Talk to the watch. Book a demo, request a security review, get support or reach the press team.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Familjen+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+.contact-hero .hud-read{position:static;margin-top:32px;animation:fade 1.2s ease .6s both}
+.contact-hero .hud-read .dot{margin-right:4px}
+
+.desk{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(32px,4vw,64px);align-items:start}
+
+/* topic router */
+.topics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;border:0;margin:0;padding:0;min-width:0}
+.topics legend{padding:0;margin-bottom:16px}
+.topic{position:relative;cursor:pointer}
+.topic input{position:absolute;opacity:0;pointer-events:none}
+.topic .card{--fill:rgba(243,241,236,.02);--c:rgba(160,190,215,.35);display:flex;flex-direction:column;gap:10px;min-height:148px;padding:18px 18px 20px;box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .3s,--s .45s var(--ease)}
+.topic .code{color:var(--ink-4);transition:color .3s}
+.topic h3{margin-top:auto;font:500 21px/1.1 var(--f-head);letter-spacing:-.01em;color:var(--ink-2);transition:color .3s}
+.topic p{margin:0;font-size:13.5px;line-height:1.4;color:var(--ink-4)}
+.topic:hover .card{box-shadow:inset 0 0 0 1px var(--line-2)}
+.topic input:checked + .card{--s:22px;--c:rgba(243,241,236,.85);--fill:rgba(243,241,236,.05);box-shadow:inset 0 0 0 1px rgba(243,241,236,.3)}
+.topic input:checked + .card .code{color:var(--live)}
+.topic input:checked + .card h3{color:var(--ink)}
+.topic input:focus-visible + .card{outline:1.5px solid var(--ink);outline-offset:3px}
+
+.route{margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid var(--steel-line);border-radius:8px;background:var(--screen);overflow:hidden}
+.route div{padding:14px 18px;display:flex;flex-direction:column;gap:8px}
+.route div + div{border-left:1px solid var(--steel-line)}
+.route dt{font:500 10.5px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--steel-2)}
+.route dd{margin:0;font:500 14px/1.2 var(--f-mono);letter-spacing:.04em;color:var(--ink);min-height:17px;text-transform:uppercase}
+.route .sig{height:2px;grid-column:1 / -1;padding:0;background:linear-gradient(90deg,transparent,var(--live),transparent);background-size:40% 100%;background-repeat:no-repeat;animation:sig 2.4s linear infinite;opacity:.6}
+@keyframes sig{from{background-position:-40% 0}to{background-position:140% 0}}
+
+/* form */
+.form{margin-top:28px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 16px}
+.field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.field.full{grid-column:1 / -1}
+.field > label,.field > .flabel{font:500 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.field input,.field textarea{width:100%;background:var(--panel);border:1px solid var(--line-2);border-radius:8px;padding:0 14px;height:48px;font:400 15.5px/1.4 var(--f-display);color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+.field textarea{height:auto;min-height:128px;padding:13px 14px;resize:vertical}
+.field input::placeholder,.field textarea::placeholder{color:var(--ink-4)}
+.field input:focus,.field textarea:focus{border-color:var(--ink-3);box-shadow:0 0 0 3px rgba(243,241,236,.06)}
+.field.err input{border-color:var(--deny)}
+.field .msg{font:400 12px/1.3 var(--f-mono);color:var(--deny);min-height:0}
+.field[data-for]{animation:rise .45s var(--ease) both}
+.chips.small label{height:34px;font-size:13.5px;padding:0 13px}
+.submit-row{grid-column:1 / -1;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:6px}
+.submit-row small{font:400 12px/1.5 var(--f-mono);color:var(--ink-4);max-width:36ch}
+.progress{grid-column:1 / -1;height:2px;background:var(--line);border-radius:2px;overflow:hidden;opacity:0;transition:opacity .2s}
+.progress i{display:block;height:100%;width:0;background:var(--live)}
+.sending .progress{opacity:1}
+.sending .progress i{animation:load 1.4s var(--ease) forwards}
+@keyframes load{to{width:100%}}
+.sending .btn-primary{pointer-events:none;opacity:.7}
+
+.done{margin-top:28px;padding:36px 32px;--fill:rgba(62,224,161,.04);--c:rgba(62,224,161,.7);display:grid;gap:16px;justify-items:start}
+.done svg path{stroke-dasharray:40;stroke-dashoffset:40;animation:draw .7s var(--ease) .1s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.done h3{font:500 32px/1.05 var(--f-head);letter-spacing:-.02em}
+.done p{margin:0;color:var(--ink-2);max-width:46ch}
+.done .ref{font:500 12px/1 var(--f-mono);letter-spacing:.14em;color:var(--live)}
+
+/* side */
+.side-stack{display:flex;flex-direction:column;gap:16px;position:sticky;top:110px}
+.chan{border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden}
+.chan h2{padding:18px 20px;border-bottom:1px solid var(--line);font:500 11px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+.chan ul{list-style:none;margin:0;padding:0}
+.chan li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line)}
+.chan li:last-child{border-bottom:0}
+.chan li span{display:flex;flex-direction:column;gap:4px;min-width:0}
+.chan li b{font:500 16px/1.2 var(--f-head);color:var(--ink)}
+.chan li code{font:400 12.5px/1.2 var(--f-mono);color:var(--ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.statusline{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink-2);transition:border-color .25s}
+.statusline:hover{border-color:var(--line-2)}
+.statusline span{display:flex;align-items:center;gap:10px}
+.values-mini{padding:20px;border:1px solid var(--line);border-radius:12px}
+.values-mini p{margin:12px 0 0;font-size:14.5px;color:var(--ink-3)}
+.values-mini b{color:var(--ink);font-weight:500}
+
+@media (max-width:1023px){
+  .desk{grid-template-columns:1fr}
+  .side-stack{position:static}
+  .topics{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  .form{grid-template-columns:1fr}
+  .route{grid-template-columns:1fr}
+  .route div + div{border-left:0;border-top:1px solid var(--steel-line)}
+  .topic .card{min-height:124px;padding:14px 14px 16px}
+  .topic p{display:none}
+  .submit-row .btn{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body data-page="contact">
+<div id="site-nav"></div>
+
+<header class="page-hero short contact-hero" id="top">
+  <div class="bg" aria-hidden="true"><div class="grid-bg"></div><div class="scanline"></div></div>
+  <div class="wrap">
+    <span class="label hero-label">Contact</span>
+    <h1 class="display"><span class="line"><span>Talk to the watch.</span></span></h1>
+    <p class="hero-sub">Pick a topic and we'll route you to the right person: a security engineer, not a ticket queue.</p>
+    <div class="hud-read"><span><span class="dot pulse"></span> It's <b data-clock="local-hm">--:--</b> where you are. The watch is on.</span></div>
+  </div>
+</header>
+
+<main class="sec flush">
+  <div class="wrap desk">
+    <div>
+      <div id="formArea">
+        <form id="contactForm" novalidate>
+          <fieldset class="topics">
+            <legend class="label">What do you need?</legend>
+            <label class="topic"><input type="radio" name="topic" value="demo" checked><span class="card corners"><span class="code">Demo</span><h3>Book a demo</h3><p>See it run on your own repo.</p></span></label>
+            <label class="topic"><input type="radio" name="topic" value="security"><span class="card corners"><span class="code">Review</span><h3>Security review</h3><p>Reports, questionnaires, NDAs.</p></span></label>
+            <label class="topic"><input type="radio" name="topic" value="support"><span class="card corners"><span class="code">Support</span><h3>Get support</h3><p>Something's blocked or broken.</p></span></label>
+            <label class="topic"><input type="radio" name="topic" value="press"><span class="card corners"><span class="code">Press</span><h3>Press &amp; partners</h3><p>Stories, talks, integrations.</p></span></label>
+          </fieldset>
+
+          <dl class="route" aria-live="polite">
+            <div><dt>Routing to</dt><dd id="routeTo">Solutions engineering</dd></div>
+            <div><dt>Typical reply</dt><dd id="routeSla">Within 1 business day</dd></div>
+            <span class="sig" aria-hidden="true"></span>
+          </dl>
+
+          <div class="form">
+            <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" placeholder="Your name" required><span class="msg"></span></div>
+            <div class="field"><label for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required><span class="msg"></span></div>
+            <div class="field full" data-for="demo security press"><label for="f-company">Company</label><input id="f-company" name="company" autocomplete="organization" placeholder="Company name"></div>
+
+            <div class="field full" data-for="demo"><span class="flabel" id="lbl-agents">Agents your team uses</span>
+              <div class="chips small" role="group" aria-labelledby="lbl-agents">
+                <label><input type="checkbox" name="agents" value="Claude Code"><span>Claude Code</span></label>
+                <label><input type="checkbox" name="agents" value="Codex"><span>Codex</span></label>
+                <label><input type="checkbox" name="agents" value="Cursor"><span>Cursor</span></label>
+                <label><input type="checkbox" name="agents" value="Copilot"><span>Copilot</span></label>
+                <label><input type="checkbox" name="agents" value="Windsurf"><span>Windsurf</span></label>
+              </div></div>
+            <div class="field full" data-for="demo"><span class="flabel" id="lbl-size">Engineering team size</span>
+              <div class="chips small" role="radiogroup" aria-labelledby="lbl-size">
+                <label><input type="radio" name="size" value="1-10"><span>1–10</span></label>
+                <label><input type="radio" name="size" value="11-50" checked><span>11–50</span></label>
+                <label><input type="radio" name="size" value="51-200"><span>51–200</span></label>
+                <label><input type="radio" name="size" value="200+"><span>200+</span></label>
+              </div></div>
+
+            <div class="field full" data-for="security" hidden><span class="flabel" id="lbl-docs">Documents you need</span>
+              <div class="chips small" role="group" aria-labelledby="lbl-docs">
+                <label><input type="checkbox" name="docs" value="SOC 2"><span>SOC 2 report</span></label>
+                <label><input type="checkbox" name="docs" value="ISO 27001"><span>ISO 27001</span></label>
+                <label><input type="checkbox" name="docs" value="Pen test"><span>Pen test summary</span></label>
+                <label><input type="checkbox" name="docs" value="Questionnaire"><span>Questionnaire</span></label>
+              </div></div>
+
+            <div class="field" data-for="support" hidden><label for="f-ws">Workspace ID</label><input id="f-ws" name="workspace" placeholder="gh_ws_…"></div>
+            <div class="field" data-for="support" hidden><span class="flabel" id="lbl-sev">Severity</span>
+              <div class="chips small" role="radiogroup" aria-labelledby="lbl-sev">
+                <label><input type="radio" name="sev" value="low"><span>Low</span></label>
+                <label><input type="radio" name="sev" value="normal" checked><span>Normal</span></label>
+                <label><input type="radio" name="sev" value="urgent"><span>Urgent</span></label>
+              </div></div>
+
+            <div class="field full"><label for="f-msg" id="msgLabel">Anything we should know?</label><textarea id="f-msg" name="message" placeholder="Repos, agents, timelines, or the question on your mind."></textarea></div>
+            <div class="progress" aria-hidden="true"><i></i></div>
+            <div class="submit-row"><small>We reply from a real inbox. No mailing lists unless you ask.</small><button class="btn btn-primary" type="submit" id="sendBtn"><span id="sendLabel">Send to the watch</span> <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <aside class="side-stack" aria-label="Other ways to reach us">
+      <div class="chan">
+        <h2>Direct lines</h2>
+        <ul>
+          <li><span><b>Sales</b><code>sales@gatehouse.dev</code></span><button class="mini" type="button" data-copy="sales@gatehouse.dev">Copy</button></li>
+          <li><span><b>Security</b><code>security@gatehouse.dev</code></span><button class="mini" type="button" data-copy="security@gatehouse.dev">Copy</button></li>
+          <li><span><b>Support</b><code>support@gatehouse.dev</code></span><button class="mini" type="button" data-copy="support@gatehouse.dev">Copy</button></li>
+          <li><span><b>Press</b><code>press@gatehouse.dev</code></span><button class="mini" type="button" data-copy="press@gatehouse.dev">Copy</button></li>
+        </ul>
+      </div>
+      <a class="statusline" href="trust.html#status"><span><span class="dot pulse"></span>All systems operational</span><span aria-hidden="true">→</span></a>
+      <div class="values-mini">
+        <span class="code">How we answer</span>
+        <p><b>Vigilance:</b> every message is read by a person. <b>Precision:</b> you get a specific answer, not a template. <b>Resilience:</b> if we miss a reply time, we tell you why.</p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+(function(){
+  var GH = window.GH, reduce = GH.reduce;
+  var ROUTES = {
+    demo:     {to: 'Solutions engineering', sla: 'Within 1 business day', team: 'solutions engineer', msg: 'Anything we should know?', send: 'Book my demo'},
+    security: {to: 'Security & compliance', sla: 'Within 4 business hours', team: 'security engineer', msg: 'Your review timeline and any questions', send: 'Request documents'},
+    support:  {to: 'Support on call', sla: 'Under 2 hours, 24/7', team: 'support engineer', msg: 'What happened, and what did you expect?', send: 'Open a ticket'},
+    press:    {to: 'Communications', sla: 'Within 2 business days', team: 'communications lead', msg: 'Your outlet, deadline and question', send: 'Send to the watch'}
+  };
+  var form = document.getElementById('contactForm'), area = document.getElementById('formArea');
+  var routeTo = document.getElementById('routeTo'), routeSla = document.getElementById('routeSla'), msgLabel = document.getElementById('msgLabel'), sendLabel = document.getElementById('sendLabel');
+  function topic(){ return form.querySelector('input[name="topic"]:checked').value; }
+  function apply(t, first){
+    var r = ROUTES[t];
+    if (first){ routeTo.textContent = r.to; routeSla.textContent = r.sla; } else { GH.scramble(routeTo, r.to); GH.scramble(routeSla, r.sla); }
+    msgLabel.textContent = r.msg; sendLabel.textContent = r.send;
+    form.querySelectorAll('[data-for]').forEach(function(f){
+      var on = f.getAttribute('data-for').split(' ').indexOf(t) >= 0;
+      if (on && f.hidden){ f.hidden = false; f.style.animation = 'none'; void f.offsetWidth; f.style.animation = ''; }
+      else if (!on) f.hidden = true;
+    });
+  }
+  form.querySelectorAll('input[name="topic"]').forEach(function(i){ i.addEventListener('change', function(){ apply(topic()); }); });
+  apply('demo', true);
+
+  function setErr(id, text){ var f = document.getElementById(id).closest('.field'); f.classList.toggle('err', !!text); f.querySelector('.msg').textContent = text || ''; }
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('f-name').value.trim(), email = document.getElementById('f-email').value.trim(), ok = true;
+    setErr('f-name', name ? '' : 'Add your name so we know who to reply to.'); if (!name) ok = false;
+    var good = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    setErr('f-email', good ? '' : 'Enter a work email, like you@company.com.'); if (!good) ok = false;
+    if (!ok){ form.querySelector('.err input').focus(); return; }
+    var r = ROUTES[topic()], formEl = form.querySelector('.form');
+    sendLabel.textContent = 'Transmitting'; formEl.classList.add('sending');
+    setTimeout(function(){
+      var ref = 'GH-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+      var done = document.createElement('div'); done.className = 'done corners'; done.setAttribute('role', 'status'); done.tabIndex = -1;
+      done.innerHTML = '<svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><rect x="1" y="1" width="42" height="42" fill="none" stroke="rgba(62,224,161,.5)"/><path d="M12 22.5l7 7 13-14" fill="none" stroke="#3ee0a1" stroke-width="2" stroke-linecap="square"/></svg>' +
+        '<span class="ref">Ref ' + ref + '</span><h3>Received. The watch has it.</h3>' +
+        '<p>A ' + r.team + ' will reply ' + r.sla.toLowerCase() + ' at <b></b>.</p>' +
+        '<button class="btn btn-ghost" type="button">Send another message</button>';
+      done.querySelector('b').textContent = email;
+      form.hidden = true; area.appendChild(done); done.focus();
+      done.querySelector('button').addEventListener('click', function(){ done.remove(); form.reset(); formEl.classList.remove('sending'); form.hidden = false; apply('demo', true); document.getElementById('f-name').focus(); });
+    }, reduce ? 0 : 1450);
+  });
+})();
+</script>
+</body>
+</html>
