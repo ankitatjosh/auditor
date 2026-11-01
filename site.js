@@ -1,11 +1,11 @@
-/* Gatehouse shared behaviour: nav + footer, menu, reveals, clocks, copy, scramble, count-up. */
+/* Ai Audit shared behaviour: nav + footer, menu, reveals, clocks, copy, scramble, count-up. */
 (function(){
   var page = document.body.getAttribute('data-page') || '';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var ARROW = '<span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
   var MARK = '<svg viewBox="0 0 26 26" aria-hidden="true"><path d="M3 24V3h20v21h-5.5V8.5h-9V24H3Z" fill="#f3f1ec"/><rect x="11" y="11" width="4" height="13" rx=".5" fill="#f3f1ec" opacity=".55"/></svg>';
-  var BRAND = '<a class="brand" href="index.html" aria-label="Gatehouse home">' + MARK + '<span>Gatehouse<sup>™</sup></span></a>';
-  var LINKS = [['Platform','index.html#products','platform'],['Pricing','index.html#pricing','pricing'],['About','about.html','about'],['Careers','careers.html','careers'],['Trust center','trust.html','trust']];
+  var BRAND = '<a class="brand" href="index.html" aria-label="Ai Audit home">' + MARK + '<span>Ai Audit<sup>™</sup></span></a>';
+  var LINKS = [['Platform','index.html#products','platform'],['Trust center','trust.html','trust'],['About','about.html','about'],['Careers','careers.html','careers'],['Contact','contact.html','contact']];
   function links(){ return LINKS.map(function(l){ return '<a href="' + l[1] + '"' + (l[2] === page ? ' aria-current="page"' : '') + '>' + l[0] + '</a>'; }).join(''); }
 
   var navSlot = document.getElementById('site-nav');
@@ -27,7 +27,7 @@
     '<div><h4>Products</h4><ul><li><a href="index.html#products">Warden</a></li><li><a href="index.html#products">Portcullis</a></li><li><a href="index.html#products">Sieve</a></li><li><a href="index.html#products">Logbook</a></li></ul></div>' +
     '<div><h4>Company</h4><ul><li><a href="about.html"' + cur('about') + '>About</a></li><li><a href="careers.html"' + cur('careers') + '>Careers</a></li><li><a href="trust.html"' + cur('trust') + '>Trust center</a></li><li><a href="contact.html"' + cur('contact') + '>Contact</a></li></ul></div>' +
     '<div><h4>Resources</h4><ul><li><a href="index.html#install">Docs</a></li><li><a href="index.html#pricing">Pricing</a></li><li><a href="trust.html#status">Status</a></li><li><a href="trust.html#disclosure">Report a vulnerability</a></li></ul></div>' +
-    '</div><div class="fbase"><span>© 2026 Gatehouse Security, Inc.</span><span>security@gatehouse.dev</span></div></div></footer>';
+    '</div><div class="fbase"><span>© 2026 Ai Audit Security, Inc.</span><span>security@Ai Audit.dev</span></div></div></footer>';
 
   /* nav state */
   var nav = document.getElementById('nav');
