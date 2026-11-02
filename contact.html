@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Contact Gatehouse</title>
+<title>Contact AI Audit</title>
 <meta name="description" content="Talk to the watch. Book a demo, request a security review, get support or reach the press team.">
+<!-- Where the contact forms are sent: the AI Audit backend's public endpoint. Change for production. -->
+<meta name="enquiry-endpoint" content="http://127.0.0.1:9000/api/public/inquiries">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Familjen+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -117,6 +119,7 @@
     <div>
       <div id="formArea">
         <form id="contactForm" novalidate>
+          <span aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden"><input name="website" tabindex="-1" autocomplete="off" placeholder="Leave empty"></span>
           <fieldset class="topics">
             <legend class="label">What do you need?</legend>
             <label class="topic"><input type="radio" name="topic" value="demo" checked><span class="card corners"><span class="code">Demo</span><h3>Book a demo</h3><p>See it run on your own repo.</p></span></label>
@@ -170,6 +173,7 @@
 
             <div class="field full"><label for="f-msg" id="msgLabel">Anything we should know?</label><textarea id="f-msg" name="message" placeholder="Repos, agents, timelines, or the question on your mind."></textarea></div>
             <div class="progress" aria-hidden="true"><i></i></div>
+            <p id="sendError" role="alert" hidden style="margin:0;color:#ff6b5b;font-size:14px"></p>
             <div class="submit-row"><small>We reply from a real inbox. No mailing lists unless you ask.</small><button class="btn btn-primary" type="submit" id="sendBtn"><span id="sendLabel">Send to the watch</span> <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></div>
           </div>
         </form>
@@ -180,10 +184,10 @@
       <div class="chan">
         <h2>Direct lines</h2>
         <ul>
-          <li><span><b>Sales</b><code>sales@gatehouse.dev</code></span><button class="mini" type="button" data-copy="sales@gatehouse.dev">Copy</button></li>
-          <li><span><b>Security</b><code>security@gatehouse.dev</code></span><button class="mini" type="button" data-copy="security@gatehouse.dev">Copy</button></li>
-          <li><span><b>Support</b><code>support@gatehouse.dev</code></span><button class="mini" type="button" data-copy="support@gatehouse.dev">Copy</button></li>
-          <li><span><b>Press</b><code>press@gatehouse.dev</code></span><button class="mini" type="button" data-copy="press@gatehouse.dev">Copy</button></li>
+          <li><span><b>Sales</b><code>sales@AI Audit.dev</code></span><button class="mini" type="button" data-copy="sales@AI Audit.dev">Copy</button></li>
+          <li><span><b>Security</b><code>security@AI Audit.dev</code></span><button class="mini" type="button" data-copy="security@AI Audit.dev">Copy</button></li>
+          <li><span><b>Support</b><code>support@AI Audit.dev</code></span><button class="mini" type="button" data-copy="support@AI Audit.dev">Copy</button></li>
+          <li><span><b>Press</b><code>press@AI Audit.dev</code></span><button class="mini" type="button" data-copy="press@AI Audit.dev">Copy</button></li>
         </ul>
       </div>
       <a class="statusline" href="trust.html#status"><span><span class="dot pulse"></span>All systems operational</span><span aria-hidden="true">→</span></a>
@@ -197,6 +201,7 @@
 
 <div id="site-footer"></div>
 <script src="site.js"></script>
+<script src="enquiry.js"></script>
 <script>
 (function(){
   var GH = window.GH, reduce = GH.reduce;
@@ -230,19 +235,53 @@
     var good = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     setErr('f-email', good ? '' : 'Enter a work email, like you@company.com.'); if (!good) ok = false;
     if (!ok){ form.querySelector('.err input').focus(); return; }
-    var r = ROUTES[topic()], formEl = form.querySelector('.form');
+    var t = topic(), r = ROUTES[t], formEl = form.querySelector('.form');
+    var sendError = document.getElementById('sendError'), sendBtn = document.getElementById('sendBtn');
+    if (sendBtn.disabled) return;
+    function visible(name){ var el = form.elements[name]; var input = el && (el.length ? el[0] : el); var field = input && input.closest('[data-for]'); return !field || !field.hidden; }
+    function checked(name){ return Array.prototype.map.call(form.querySelectorAll('input[name="' + name + '"]:checked'), function(i){ return i.value; }); }
+    var ctx = window.GHEnquiry.context();
+    var fields = {
+      topic: t,
+      name: name,
+      email: email,
+      company: visible('company') ? document.getElementById('f-company').value.trim() : null,
+      agents: visible('agents') ? checked('agents') : null,
+      team_size: visible('size') ? (checked('size')[0] || null) : null,
+      documents: visible('docs') ? checked('docs') : null,
+      workspace_id: visible('workspace') ? document.getElementById('f-ws').value.trim() : null,
+      severity: visible('sev') ? (checked('sev')[0] || null) : null,
+      message: document.getElementById('f-msg').value.trim(),
+      plan: ctx.plan,
+      products: ctx.products,
+      cta: ctx.cta || 'contact-form',
+      website: form.elements.website.value
+    };
+    sendError.hidden = true;
+    sendBtn.disabled = true;
     sendLabel.textContent = 'Transmitting'; formEl.classList.add('sending');
-    setTimeout(function(){
-      var ref = 'GH-' + Math.random().toString(36).slice(2, 8).toUpperCase();
-      var done = document.createElement('div'); done.className = 'done corners'; done.setAttribute('role', 'status'); done.tabIndex = -1;
-      done.innerHTML = '<svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><rect x="1" y="1" width="42" height="42" fill="none" stroke="rgba(62,224,161,.5)"/><path d="M12 22.5l7 7 13-14" fill="none" stroke="#3ee0a1" stroke-width="2" stroke-linecap="square"/></svg>' +
-        '<span class="ref">Ref ' + ref + '</span><h3>Received. The watch has it.</h3>' +
-        '<p>A ' + r.team + ' will reply ' + r.sla.toLowerCase() + ' at <b></b>.</p>' +
-        '<button class="btn btn-ghost" type="button">Send another message</button>';
-      done.querySelector('b').textContent = email;
-      form.hidden = true; area.appendChild(done); done.focus();
-      done.querySelector('button').addEventListener('click', function(){ done.remove(); form.reset(); formEl.classList.remove('sending'); form.hidden = false; apply('demo', true); document.getElementById('f-name').focus(); });
-    }, reduce ? 0 : 1450);
+    var started = Date.now();
+    window.GHEnquiry.send(fields).then(function(res){
+      // Keep the short "transmitting" animation, then show the confirmation with the server's reference
+      setTimeout(function(){
+        var done = document.createElement('div'); done.className = 'done corners'; done.setAttribute('role', 'status'); done.tabIndex = -1;
+        done.innerHTML = '<svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><rect x="1" y="1" width="42" height="42" fill="none" stroke="rgba(62,224,161,.5)"/><path d="M12 22.5l7 7 13-14" fill="none" stroke="#3ee0a1" stroke-width="2" stroke-linecap="square"/></svg>' +
+          '<span class="ref"></span><h3>Received. The watch has it.</h3>' +
+          '<p>A ' + r.team + ' will reply ' + r.sla.toLowerCase() + ' at <b></b>.</p>' +
+          '<button class="btn btn-ghost" type="button">Send another message</button>';
+        done.querySelector('.ref').textContent = 'Ref ' + res.reference;
+        done.querySelector('b').textContent = email;
+        form.hidden = true; area.appendChild(done); done.focus();
+        sendBtn.disabled = false;
+        done.querySelector('button').addEventListener('click', function(){ done.remove(); form.reset(); formEl.classList.remove('sending'); form.hidden = false; apply('demo', true); document.getElementById('f-name').focus(); });
+      }, reduce ? 0 : Math.max(0, 1450 - (Date.now() - started)));
+    }, function(err){
+      formEl.classList.remove('sending');
+      sendLabel.textContent = r.send;
+      sendBtn.disabled = false;
+      sendError.textContent = err.message;
+      sendError.hidden = false;
+    });
   });
 })();
 </script>
