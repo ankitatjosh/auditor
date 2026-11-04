@@ -1,5 +1,5 @@
 /*
- * Sends the site's contact forms to the AI Audit backend (POST /api/public/inquiries).
+ * Sends the site's contact forms to the RAKSYON backend (POST /api/public/inquiries).
  *
  * The endpoint comes from <meta name="enquiry-endpoint" content="..."> on each page.
  * Links with data-cta (and optional data-product, data-plan, data-topic) remember why the
@@ -11,7 +11,7 @@
 
   var meta = document.querySelector('meta[name="enquiry-endpoint"]');
   var ENDPOINT = (meta && meta.getAttribute('content')) || '';
-  var STORE = 'gh_enquiry_context';
+  var STORE = 'raksyon_enquiry_context';
   var TIMEOUT_MS = 15000;
   var UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
 

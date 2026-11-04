@@ -1,4 +1,4 @@
-/* AI Audit site system, shared by About, Careers, Trust center and Contact.
+/* RAKSYON site system, shared by About, Careers, Trust center and Contact.
    Layout: fixed glass nav, full-width bands on edge-black, 1440px container.
    Type: Chakra Petch for headings and numbers, Familjen Grotesk for body, Plex Mono for HUD labels.
    HUD details (corner brackets, grids, readouts) in cool steel. Single dark look by design. */
@@ -70,7 +70,7 @@ img,svg,canvas{max-width:100%}
 .nav{position:fixed;top:0;left:0;right:0;z-index:30;padding-top:calc(16px + env(safe-area-inset-top, 0px));padding-bottom:16px;transition:background .35s var(--ease),box-shadow .35s;animation:drop .8s var(--ease) .05s both}
 .nav.scrolled{background:rgba(5,5,5,.76);backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);box-shadow:0 1px 0 var(--line)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;font:600 19px/1 var(--f-head);letter-spacing:-.01em}
+.brand{display:flex;align-items:center;gap:10px;font:600 19px/1 var(--f-head);letter-spacing:.05em}
 .brand svg{width:24px;height:24px;flex:none}
 .brand sup{font:500 9px/1 var(--f-mono);letter-spacing:0;color:var(--ink-3);margin-left:1px;vertical-align:9px}
 .links{display:flex;gap:2px;padding:5px;border-radius:999px;background:rgba(14,14,13,.55);box-shadow:inset 0 0 0 1px rgba(243,241,236,.1);backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2)}
@@ -180,6 +180,7 @@ h1,h2,h3,h4{font-family:var(--f-head);font-weight:500;margin:0}
 footer{border-top:1px solid var(--line);padding-block:64px calc(40px + env(safe-area-inset-bottom, 0px))}
 .fgrid{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));gap:32px}
 .fgrid p{margin:16px 0 0;color:var(--ink-3);font-size:14.5px;max-width:30ch}
+.fgrid p span{white-space:nowrap}
 .fvalues{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;font:500 11px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--steel-2)}
 .fvalues span+span::before{content:"/";margin-right:10px;color:var(--ink-4)}
 .fgrid h4{margin:0 0 14px;font:500 11.5px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-4)}

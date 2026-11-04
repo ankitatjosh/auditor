@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>AI Audit Trust Center</title>
-<meta name="description" content="Live status, security controls, compliance documents and responsible disclosure for AI Audit.">
+<title>RAKSYON Trust Center</title>
+<meta name="description" content="Live status, security controls, compliance documents and responsible disclosure for RAKSYON.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Familjen+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -164,20 +164,20 @@
       <div class="flow-head">
         <div><span class="label">Where your code goes</span><h2 class="title" id="flow-h">Your source never <em>leaves your side.</em></h2></div>
         <div class="chips" role="group" aria-label="Deployment model">
-          <button type="button" aria-pressed="true" data-mode="cloud">AI Audit Cloud</button>
+          <button type="button" aria-pressed="true" data-mode="cloud">RAKSYON Cloud</button>
           <button type="button" aria-pressed="false" data-mode="vpc">Your VPC</button>
         </div>
       </div>
       <div class="flow-wrap">
         <svg class="flow" id="flowSvg" data-mode="cloud" viewBox="0 0 960 400" role="img" aria-labelledby="flowDesc">
-          <desc id="flowDesc">Data-flow diagram. The AI agent's actions pass through the AI Audit hook on your machine before reaching the repo. In AI Audit Cloud mode only metadata leaves your environment. In VPC mode the control plane runs inside your network and only signed updates come in.</desc>
+          <desc id="flowDesc">Data-flow diagram. The AI agent's actions pass through the RAKSYON hook on your machine before reaching the repo. In RAKSYON Cloud mode only metadata leaves your environment. In VPC mode the control plane runs inside your network and only signed updates come in.</desc>
           <rect x="16" y="16" width="700" height="368" rx="6" fill="rgba(160,190,215,.025)" stroke="rgba(160,190,215,.35)" stroke-dasharray="4 5"/>
           <text x="34" y="42">YOUR ENVIRONMENT</text>
 
           <path class="wire" d="M210 238 H290"/><path class="wire" d="M460 238 H540"/>
 
           <rect class="node" x="40" y="196" width="170" height="84" rx="4"/><text x="58" y="226">AI AGENT</text><text class="nt" x="58" y="256">Claude Code</text>
-          <rect class="node hl" x="290" y="196" width="170" height="84" rx="4"/><text x="308" y="226">AI Audit HOOK</text><text class="nt" x="308" y="256">Policy decision</text>
+          <rect class="node hl" x="290" y="196" width="170" height="84" rx="4"/><text x="308" y="226">RAKSYON HOOK</text><text class="nt" x="308" y="256">Policy decision</text>
           <rect class="node" x="540" y="196" width="156" height="84" rx="4"/><text x="558" y="226">DESTINATION</text><text class="nt" x="558" y="256">Repo · shell</text>
 
           <g class="m-cloud">
@@ -185,7 +185,7 @@
             <path class="wire" d="M460 102 H860 V196" stroke-dasharray="1 5" opacity=".6"/>
             <path class="wire" d="M375 280 V340 H860 V280" stroke-dasharray="3 4"/>
             <rect x="680" y="328" width="78" height="22" rx="3" fill="#07090b" stroke="rgba(160,190,215,.35)"/><text x="692" y="343">TLS 1.3</text>
-            <rect class="node" x="780" y="196" width="160" height="84" rx="4"/><text x="798" y="226">AI Audit CLOUD</text><text class="nt" x="798" y="256">Metadata only</text>
+            <rect class="node" x="780" y="196" width="160" height="84" rx="4"/><text x="798" y="226">RAKSYON CLOUD</text><text class="nt" x="798" y="256">Metadata only</text>
           </g>
           <g class="m-vpc">
             <path class="wire" d="M860 196 V102 H460" stroke-dasharray="3 4"/><path class="wire" d="M375 140 V196"/>
@@ -272,7 +272,7 @@
         <span class="label">Responsible disclosure</span>
         <h2 class="title" id="disc-h">Found something? <em>Tell us first.</em></h2>
         <p class="lede">We welcome reports from security researchers and protect good-faith research. Include steps to reproduce and we'll work with you on a fix and a disclosure date.</p>
-        <div class="mailbox"><code>security@AI Audit.dev</code><button class="btn btn-primary" type="button" data-copy="security@AI Audit.dev">Copy <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></div>
+        <div class="mailbox"><code>security@raksyon.tech</code><button class="btn btn-primary" type="button" data-copy="security@raksyon.tech">Copy <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></div>
       </div>
       <ul class="promises">
         <li><span class="num">24 h</span><p>We acknowledge every report within one day.</p></li>

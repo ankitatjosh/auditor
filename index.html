@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>AI Audit Security</title>
+<title>RAKSYON · The AI Defense Layer</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="AI Audit is the security layer for AI coding agents. Every prompt, tool call, install and diff from Claude Code, Codex and Cursor is checked before it reaches your repo.">
-<!-- Where the contact forms are sent: the AI Audit backend's public endpoint. Change for production. -->
+<meta name="description" content="RAKSYON is the AI defense layer for coding agents. Every prompt, tool call, install and diff from Claude Code, Codex and Cursor is checked before it reaches your repo.">
+<!-- Where the contact forms are sent: the RAKSYON backend's public endpoint. Change for production. -->
 <meta name="enquiry-endpoint" content="http://127.0.0.1:9000/api/public/inquiries">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,7 +74,7 @@ a{color:inherit;text-decoration:none}
 
 .nav{position:absolute;top:0;left:0;right:0;z-index:20;padding-top:calc(22px + env(safe-area-inset-top, 0px));animation:drop .8s var(--ease) .1s both}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;font:600 19px/1 var(--f-head);letter-spacing:-.01em}
+.brand{display:flex;align-items:center;gap:10px;font:600 19px/1 var(--f-head);letter-spacing:.05em}
 .brand svg{width:26px;height:26px}
 .brand sup{font:500 9px/1 var(--f-mono);letter-spacing:0;color:var(--ink-3);margin-left:1px;vertical-align:9px}
 .links{display:flex;gap:2px;padding:5px;border-radius:999px;background:rgba(14,14,13,.55);box-shadow:inset 0 0 0 1px rgba(243,241,236,.1);backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2)}
@@ -254,6 +254,7 @@ h2 em{font-style:normal;font-weight:300;color:var(--ink-3)}
 footer{border-top:1px solid var(--line);padding-block:64px calc(40px + env(safe-area-inset-bottom, 0px))}
 .fgrid{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));gap:32px}
 .fgrid p{margin:16px 0 0;color:var(--ink-3);font-size:14.5px;max-width:30ch}
+.fgrid p span{white-space:nowrap}
 .fvalues{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;font:500 11px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:rgba(159,180,198,.6)}
 .fvalues span+span::before{content:"/";margin-right:10px;color:var(--ink-4)}
 .fgrid h4{margin:0 0 14px;font:500 11.5px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-4)}
@@ -338,9 +339,9 @@ footer{border-top:1px solid var(--line);padding-block:64px calc(40px + env(safe-
 
   <nav class="nav" aria-label="Primary">
     <div class="wrap">
-      <a class="brand" href="#top" aria-label="AI Audit home">
+      <a class="brand" href="#top" aria-label="RAKSYON home">
         <svg viewBox="0 0 26 26" aria-hidden="true"><path d="M3 24V3h20v21h-5.5V8.5h-9V24H3Z" fill="#f3f1ec"/><rect x="11" y="11" width="4" height="13" rx=".5" fill="#f3f1ec" opacity=".55"/></svg>
-        <span>AI Audit<sup>™</sup></span>
+        <span>RAKSYON<sup>™</sup></span>
       </a>
       <div class="links">
         <a href="#products">Products</a>
@@ -378,10 +379,10 @@ footer{border-top:1px solid var(--line);padding-block:64px calc(40px + env(safe-
           <ul class="status" aria-label="Service status">
             <li><i class="ok pulse"></i><b>Operational</b><span class="sep">·</span>Status</li>
             <li><i></i><b>99.99%</b><span class="sep">·</span>Uptime</li>
-            <li><i></i><b>SOC2</b><span class="sep">·</span><b>ISO 27001</b><span class="sep">·</span>Compliance</li>
+            <!-- <li><i></i><b>SOC2</b><span class="sep">·</span><b>ISO 27001</b><span class="sep">·</span>Compliance</li> -->
             <li><i class="ok"></i><b>Low</b><span class="sep">·</span>Threat level</li>
           </ul>
-          <p class="lede"><b>AI Audit checks every prompt, tool call, package and diff</b> your coding agents produce, before any of it reaches your repo, your keys or production.</p>
+          <p class="lede"><b>RAKSYON checks every prompt, tool call, package and diff</b> your coding agents produce, before any of it reaches your repo, your keys or production.</p>
           <div class="ctas">
             <a class="btn btn-primary" href="#demo" data-cta="hero-book-demo">Book a demo <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
             <a class="btn btn-ghost" href="#products">See the four checkpoints</a>
@@ -474,16 +475,16 @@ footer{border-top:1px solid var(--line);padding-block:64px calc(40px + env(safe-
       <div class="copy">
         <span class="label">Install</span>
         <h2 id="inst-h">One command. <em>Every agent covered.</em></h2>
-        <p>Ai Audit installs as native hooks in Claude Code and Codex, as an MCP gateway for every other agent, and as a check in CI. Policies live in your repo and get reviewed like code.</p>
-        <div class="cmd"><code id="cmd">npx Ai Audit init</code><button type="button" id="copy">Copy</button></div>
+        <p>RAKSYON installs as native hooks in Claude Code and Codex, as an MCP gateway for every other agent, and as a check in CI. Policies live in your repo and get reviewed like code.</p>
+        <div class="cmd"><code id="cmd">npx raksyon init</code><button type="button" id="copy">Copy</button></div>
         <dl class="specs">
           <div><dt>Overhead</dt><dd>Under 6 ms p50 per tool call</dd></div>
-          <div><dt>Deploy</dt><dd>Your VPC, or Ai Audit Cloud</dd></div>
+          <div><dt>Deploy</dt><dd>Your VPC, or RAKSYON Cloud</dd></div>
           <div><dt>Policies</dt><dd>YAML in your repo, versioned with your code</dd></div>
         </dl>
       </div>
-      <div class="term reveal" role="region" aria-label="Example Ai Audit session log">
-        <div class="term-bar"><span>Ai Audit watch · claude-code · acme/payments</span><span class="live">live</span></div>
+      <div class="term reveal" role="region" aria-label="Example RAKSYON session log">
+        <div class="term-bar"><span>raksyon watch · claude-code · acme/payments</span><span class="live">live</span></div>
         <div class="term-body">
           <div class="log">
             <span class="t">14:02:11</span><span class="k">read</span><span class="w">src/billing/invoice.ts</span><span class="s ok">allow</span><span class="p"></span>
@@ -581,14 +582,14 @@ footer{border-top:1px solid var(--line);padding-block:64px calc(40px + env(safe-
   <div class="wrap">
     <div class="fgrid">
       <div>
-        <a class="brand" href="#top"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M3 24V3h20v21h-5.5V8.5h-9V24H3Z" fill="#f3f1ec"/><rect x="11" y="11" width="4" height="13" rx=".5" fill="#f3f1ec" opacity=".55"/></svg><span>Ai Audit<sup>™</sup></span></a>
-        <p>The security layer for AI coding agents.</p><div class="fvalues"><span>Vigilance</span><span>Precision</span><span>Resilience</span></div>
+        <a class="brand" href="#top"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M3 24V3h20v21h-5.5V8.5h-9V24H3Z" fill="#f3f1ec"/><rect x="11" y="11" width="4" height="13" rx=".5" fill="#f3f1ec" opacity=".55"/></svg><span>RAKSYON<sup>™</sup></span></a>
+        <p>The AI Defense Layer.<br><span>Secure Intelligence.</span> <span>Across Every Language.</span></p><div class="fvalues"><span>Vigilance</span><span>Precision</span><span>Resilience</span></div>
       </div>
       <div><h4>Products</h4><ul><li><a href="#products">Warden</a></li><li><a href="#products">Portcullis</a></li><li><a href="#products">Sieve</a></li><li><a href="#products">Logbook</a></li></ul></div>
       <div><h4>Company</h4><ul><li><a href="about.html">About</a></li><li><a href="careers.html">Careers</a></li><li><a href="trust.html">Trust center</a></li><li><a href="contact.html">Contact</a></li></ul></div>
       <div><h4>Resources</h4><ul><li><a href="#install">Docs</a></li><li><a href="#pricing">Pricing</a></li><li><a href="trust.html#status">Status</a></li><li><a href="trust.html#disclosure">Report a vulnerability</a></li></ul></div>
     </div>
-    <div class="fbase"><span>© 2026 Ai Audit Security, Inc.</span><span>Report a vulnerability: security@AI Audit.dev</span></div>
+    <div class="fbase"><span>© 2026 RAKSYON Security, Inc.</span><span>Report a vulnerability: security@raksyon.tech</span></div>
   </div>
 </footer>
 
