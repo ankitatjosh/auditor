@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>RAKSYON Careers</title>
-<meta name="description" content="Join the watch. Open roles at RAKSYON, the AI defense layer for coding agents.">
+<meta name="description" content="Open roles at RAKSYON, the team building R-Secure: self-hosted security for AI coding tools.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Familjen+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="assets/css/site.css">
 <style>
 /* hero */
 .careers-hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:40px}
@@ -101,7 +101,7 @@
     <div>
       <span class="label hero-label">Careers</span>
       <h1 class="display"><span class="line"><span>Join the watch.</span></span><span class="line"><span class="thin">Build what keeps agents safe.</span></span></h1>
-      <p class="hero-sub">We build the AI defense layer that lets agents work without fear. If you care about precision and stay calm under pressure, there's a seat on the watch for you.</p>
+      <p class="hero-sub">We build the security layer that lets AI agents work without fear. If you care about precision and stay calm under pressure, there's a seat on the watch for you.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#roles">See open roles <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
         <a class="btn btn-ghost" href="#hiring">How we hire</a>
@@ -158,58 +158,58 @@
 
       <div class="role-list" id="roleList">
         <article class="role" data-team="eng">
-          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Senior Rust Engineer, Policy Engine</span><span class="team">Engineering · Portcullis</span><span class="loc">Remote, Asia or Europe</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
+          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Senior Engineer, Agent &amp; Hooks</span><span class="team">Engineering · Capture</span><span class="loc">Remote, Asia or Europe</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
           <div class="role-body"><div><div class="role-inner">
-            <p>Own the engine that decides, in single-digit milliseconds, whether an agent's tool call runs, waits or stops.</p>
-            <ul><li>Design the policy language teams write and review in their repos</li><li>Keep p50 decision latency under 6 ms as rule sets grow</li><li>Build the replay tooling that proves a policy change is safe</li></ul>
+            <p>Own the single-file agent and the hooks that record what AI tools do on Linux, macOS and Windows.</p>
+            <ul><li>Keep the hooks fast: write one line and exit</li><li>Support new releases of Claude Code, Cursor and Antigravity as they ship</li><li>Make the agent hard to switch off quietly</li></ul>
             <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
           </div></div></div>
         </article>
         <article class="role" data-team="eng">
-          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Staff Engineer, Agent Integrations</span><span class="team">Engineering · Platform</span><span class="loc">Remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
+          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Linux Kernel Engineer, eBPF</span><span class="team">Engineering · Kernel watcher</span><span class="loc">Remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
           <div class="role-body"><div><div class="role-inner">
-            <p>Make RAKSYON feel native in every coding agent your customers use, from hooks to MCP gateways.</p>
-            <ul><li>Ship and maintain integrations for Claude Code, Codex, Cursor and more</li><li>Define how new agents get supported within a week of launch</li><li>Mentor engineers on protocol design and backwards compatibility</li></ul>
+            <p>Grow the bpftrace watcher that sees what hooks miss: subprocesses, scripts and files outside the hook path.</p>
+            <ul><li>Catch more indirect access without slowing machines down</li><li>Keep the watcher running as a protected system component</li><li>Research what similar visibility could look like on macOS and Windows</li></ul>
             <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
           </div></div></div>
         </article>
         <article class="role" data-team="research">
-          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Security Researcher, Prompt Injection</span><span class="team">Security research · Warden</span><span class="loc">Remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
+          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Security Researcher, Detection Rules</span><span class="team">Security research · Rules</span><span class="loc">Remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
           <div class="role-body"><div><div class="role-inner">
-            <p>Find the attacks before attackers do, then turn each finding into a detection that ships to every customer.</p>
-            <ul><li>Red-team agents through issues, docs, web pages and tool output</li><li>Build and maintain Warden's injection corpus and evals</li><li>Publish research the wider community can use</li></ul>
+            <p>Write and test the rules that spot secrets, credentials and risky commands in what AI tools touch.</p>
+            <ul><li>Grow and tune the 61 built-in rules</li><li>Cut false positives without missing real leaks</li><li>Track new secret formats as providers change them</li></ul>
             <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
           </div></div></div>
         </article>
         <article class="role" data-team="research">
-          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Supply-Chain Threat Analyst</span><span class="team">Security research · Sieve</span><span class="loc">Remote, Asia</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
+          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Security Researcher, Future Development</span><span class="team">Security research · Roadmap</span><span class="loc">Remote, Asia</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
           <div class="role-body"><div><div class="role-inner">
-            <p>Watch the registries agents install from, and catch typosquats and hallucinated package names as they appear.</p>
-            <ul><li>Triage suspicious npm, PyPI and crates.io releases</li><li>Tune Sieve's provenance and reputation signals</li><li>Write advisories customers can act on the same day</li></ul>
+            <p>Research the protections on our roadmap, starting with stripping secrets before they reach a model.</p>
+            <ul><li>Prototype secret stripping and package checks</li><li>Test them against real AI tool sessions</li><li>Decide, with evidence, what is ready to ship</li></ul>
             <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
           </div></div></div>
         </article>
         <article class="role" data-team="design">
           <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Product Designer, Security UX</span><span class="team">Design</span><span class="loc">Remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
           <div class="role-body"><div><div class="role-inner">
-            <p>Design approvals a developer can answer in one tap and dashboards a CISO can read in one glance.</p>
-            <ul><li>Own the approval flow across terminal, Slack and web</li><li>Shape the visual language of Logbook timelines</li><li>Test with real security and platform teams every sprint</li></ul>
+            <p>Design a dashboard a security lead can read in one glance, and a feed anyone can follow.</p>
+            <ul><li>Own the plain-English activity feed and alert review</li><li>Shape the daily report teams file as evidence</li><li>Test with real security and platform teams every sprint</li></ul>
             <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
           </div></div></div>
         </article>
         <article class="role" data-team="gtm">
-          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Founding Solutions Engineer</span><span class="team">Go-to-market</span><span class="loc">Bengaluru or remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
+          <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Founding Solutions Engineer</span><span class="team">Go-to-market</span><span class="loc">Remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
           <div class="role-body"><div><div class="role-inner">
-            <p>Run the demo against a customer's own repo, then stay with them until every agent is covered.</p>
-            <ul><li>Lead technical evaluations with security and platform teams</li><li>Write the policy packs new customers start from</li><li>Bring field feedback straight into the roadmap</li></ul>
+            <p>Run the demo on a customer's own network, then stay with them until every developer machine is covered.</p>
+            <ul><li>Lead technical evaluations with security and platform teams</li><li>Help customers set up the self-hosted server</li><li>Bring field feedback straight into the roadmap</li></ul>
             <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
           </div></div></div>
         </article>
         <article class="role" data-team="gtm">
           <h3 class="role-h"><button class="role-head" type="button" aria-expanded="false"><span class="rt">Developer Advocate</span><span class="team">Go-to-market</span><span class="loc">Remote</span><span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/></svg></span></button></h3>
           <div class="role-body"><div><div class="role-inner">
-            <p>Teach developers to build fearlessly with agents, and show them what secure-by-default looks like in practice.</p>
-            <ul><li>Write guides, talks and sample policies</li><li>Run the open-source policy pack community</li><li>Turn real incidents into lessons, with permission</li></ul>
+            <p>Teach developers to build fearlessly with AI tools without leaking secrets.</p>
+            <ul><li>Write guides on keeping secrets inside the network</li><li>Share sample detection rules for common stacks</li><li>Turn real incidents into lessons, with permission</li></ul>
             <div class="apply"><a class="btn btn-primary" href="contact.html">Apply for this role <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
           </div></div></div>
         </article>
@@ -236,9 +236,9 @@
     <div class="wrap inner">
       <h2 id="band-h">Don't see your post? <span>Write to us anyway.</span></h2>
       <div class="side">
-        <p>Tell us what you'd build and why it would keep agents safer. Send it to careers@raksyon.tech.</p>
+        <p>Tell us what you'd build and how it would keep secrets inside the network. Reach us through the contact page.</p>
         <div class="row">
-          <button class="btn btn-primary" type="button" data-copy="careers@raksyon.tech">Copy email <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          <a class="btn btn-primary" href="contact.html">Contact us <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           <a class="btn btn-ghost" href="about.html">Read our vision</a>
         </div>
       </div>
@@ -247,13 +247,13 @@
 </main>
 
 <div id="site-footer"></div>
-<script src="site.js"></script>
+<script src="assets/js/site.js"></script>
 <script>
 (function(){
   var GH = window.GH, reduce = GH.reduce;
   var list = document.getElementById('roleList'), roles = [].slice.call(list.querySelectorAll('.role')), meta = document.getElementById('rolesMeta');
   var filterBtns = [].slice.call(document.querySelectorAll('#filters button'));
-  var empty = document.createElement('p'); empty.className = 'empty'; empty.textContent = 'No open roles on this team right now. Write to careers@raksyon.tech.'; empty.hidden = true; list.appendChild(empty);
+  var empty = document.createElement('p'); empty.className = 'empty'; empty.textContent = 'No open roles on this team right now. Reach us through the contact page.'; empty.hidden = true; list.appendChild(empty);
 
   /* filter with exit then staggered entry */
   function filter(team){

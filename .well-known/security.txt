@@ -1,0 +1,5 @@
+Contact: mailto:security@raksyon.tech
+Expires: 2027-05-04T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://raksyon.ai/.well-known/security.txt
+Policy: https://raksyon.ai/privacy.html#disclosure

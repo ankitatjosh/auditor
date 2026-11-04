@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>R-Secure Privacy &amp; Data</title>
+<meta name="description" content="What R-Secure records, where it keeps it, and what leaves your network: your activity data never does. Secrets are never stored.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Familjen+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.priv-hero .status{margin-top:34px;animation:rise .9s var(--ease) .6s both}
+.priv-hero .display{max-width:15ch}
+
+/* trace a secret */
+.trace{margin-top:48px;display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:20px 40px;align-items:stretch}
+.trace > *{min-width:0}
+.tsteps{list-style:none;margin:0;padding:0;border-top:1px solid var(--line);counter-reset:t}
+.tstep{position:relative;width:100%;display:grid;grid-template-columns:44px minmax(0,1fr);gap:6px 10px;padding:18px 0 20px;background:none;border:0;border-bottom:1px solid var(--line);text-align:left;cursor:pointer;color:var(--ink-4);transition:color .3s}
+.tstep .n{font:500 11.5px/1.7 var(--f-mono);letter-spacing:.12em;color:var(--ink-4);transition:color .3s}
+.tstep b{font:500 19px/1.25 var(--f-head);color:inherit}
+.tstep span.d{grid-column:2;font-size:14.5px;line-height:1.5;color:var(--ink-4);transition:color .3s;display:none}
+.tstep:hover{color:var(--ink-2)}
+.tstep[aria-selected="true"]{color:var(--ink)}
+.tstep[aria-selected="true"] .n{color:var(--live)}
+.tstep[aria-selected="true"] span.d{display:block;color:var(--ink-2)}
+.tstep i.bar{position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--ink)}
+.tstep[aria-selected="true"] i.bar{width:100%}
+.trace.auto .tstep[aria-selected="true"] i.bar{animation:fill 4.2s linear both}
+@keyframes fill{from{width:0}to{width:100%}}
+.tscreen{--fill:var(--screen);--c:rgba(160,190,215,.6);display:flex;flex-direction:column;box-shadow:inset 0 0 0 1px var(--steel-line);min-height:520px}
+.tscreen .top,.tscreen .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 18px;min-height:46px;font:500 11.5px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--steel)}
+.tscreen .top{border-bottom:1px solid var(--steel-line)}
+.tscreen .foot{border-top:1px solid var(--steel-line);min-height:52px}
+.tdiag{padding:18px 18px 6px;overflow-x:auto}
+.tdiag svg{display:block;width:100%;min-width:560px;height:auto;overflow:visible}
+.tdiag text{font:500 10px var(--f-mono);letter-spacing:.14em;fill:#9fb4c6}
+.tdiag .nt{font:500 15px var(--f-head);letter-spacing:0;fill:var(--ink)}
+.tdiag .zone{fill:rgba(160,190,215,.025);stroke:rgba(160,190,215,.38);stroke-dasharray:5 6}
+.tdiag .zone.out{fill:none;stroke:rgba(255,122,99,.3)}
+.tdiag .nd rect{fill:#0d1013;stroke:rgba(160,190,215,.28);transition:stroke .4s,fill .4s}
+.tdiag .nd.on rect{stroke:#f3f1ec;fill:#13171b}
+.tdiag .wire{fill:none;stroke:rgba(160,190,215,.35)}
+.tdiag .wire.live{stroke:#f2262e;stroke-dasharray:4 5;animation:dash 1s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-18}}
+.tdiag .pkt{transition:transform 1s var(--ease)}
+.tdiag .pkt circle{fill:#f2262e}
+.tdiag .pkt.secret circle{fill:var(--deny)}
+.tdiag .wall{stroke:var(--deny);stroke-width:2;opacity:0;transition:opacity .4s}
+.tdiag .wall.on{opacity:1}
+.tdiag .nogo{fill:var(--deny);transition:opacity .4s}
+.payload{margin:0 18px 18px;padding:14px 16px;border-radius:10px;background:#050607;border:1px solid var(--steel-line);font:400 12.5px/1.7 var(--f-mono);color:var(--ink-2);white-space:pre-wrap;overflow-wrap:anywhere;min-height:132px;transition:opacity .25s}
+.payload.swap{opacity:0}
+.payload .k{color:var(--steel)}.payload .v{color:var(--allow)}.payload .r{color:var(--deny)}.payload .m{color:var(--ink-4)}
+.payload .red{color:var(--hold);background:rgba(233,196,111,.1);border-radius:3px;padding:0 2px}
+.tctl{display:flex;gap:8px}
+
+/* records table */
+.keep{margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.kcol{padding:26px 24px;border:1px solid var(--line);border-radius:14px}
+.kcol .code{display:block;margin-bottom:6px}
+.kcol h3{font:500 24px/1.1 var(--f-head);letter-spacing:-.01em}
+.kcol ul{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--line)}
+.kcol li{display:grid;grid-template-columns:18px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px;color:var(--ink-2);line-height:1.45}
+.kcol li svg{margin-top:3px}
+.kcol.yes .code{color:var(--allow)}.kcol.yes li svg{color:var(--allow)}
+.kcol.no .code{color:var(--deny)}.kcol.no li svg{color:var(--deny)}
+.kcol.opt .code{color:var(--hold)}.kcol.opt li svg{color:var(--hold)}
+.kcol li small{display:block;font-size:13px;color:var(--ink-4);margin-top:2px}
+
+/* connections */
+.conn{margin-top:48px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.crow{display:grid;grid-template-columns:minmax(0,1.1fr) 40px minmax(0,1.1fr) minmax(0,1.6fr) minmax(0,.8fr);gap:16px;align-items:center;padding:20px 24px;border-bottom:1px solid var(--line)}
+.crow:last-child{border-bottom:0}
+.crow.h{padding-top:14px;padding-bottom:14px;font:500 10.5px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);background:rgba(243,241,236,.02)}
+.crow b{font:500 17px/1.2 var(--f-head);color:var(--ink);display:block}
+.crow small{display:block;font-size:13px;color:var(--ink-4);margin-top:3px}
+.crow .arr{color:var(--ink-4);font:400 18px var(--f-mono);text-align:center}
+.crow p{margin:0;font-size:14.5px;color:var(--ink-2)}
+.where{display:inline-flex;align-items:center;gap:8px;font:500 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.where::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.where.in{color:var(--allow)}.where.out{color:#9fb4c6}
+.lic{margin-top:16px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.codeblock{position:relative;margin:0;padding:18px 20px;border-radius:12px;background:var(--screen);border:1px solid var(--steel-line);font:400 13px/1.75 var(--f-mono);color:var(--ink-2);overflow-x:auto;white-space:pre}
+.codeblock .k{color:var(--steel)}.codeblock .v{color:var(--allow)}.codeblock .c{color:var(--ink-4)}
+.codewrap{position:relative;min-width:0}
+.codewrap .mini{position:absolute;top:12px;right:12px}
+.honest{padding:22px 24px;border-radius:12px;border:1px solid rgba(233,196,111,.3);background:rgba(233,196,111,.04)}
+.honest .code{color:var(--hold)}
+.honest p{margin:12px 0 0;font-size:15px;color:var(--ink-2)}
+.honest b{color:var(--ink);font-weight:500}
+
+/* promises */
+.promises6{margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.promise{--fill:rgba(243,241,236,.018);padding:26px 24px 28px;display:flex;flex-direction:column;gap:12px;min-height:230px}
+.promise .code{color:var(--live)}
+.promise h3{margin-top:auto;font:500 22px/1.15 var(--f-head);letter-spacing:-.01em}
+.promise p{margin:0;font-size:15px;color:var(--ink-2)}
+
+/* controls */
+.ctrls{margin-top:48px;border-top:1px solid var(--line)}
+.ctrl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;gap:16px 32px;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
+.ctrl h3{font:500 21px/1.2 var(--f-head)}
+.ctrl p{margin:0;font-size:15px;color:var(--ink-2)}
+.ctrl .val{font:500 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--steel);white-space:nowrap}
+
+/* disclosure */
+.disclose{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,96px);align-items:start}
+.disclose > *{min-width:0}
+.mailbox{margin-top:30px;display:flex;align-items:center;gap:10px;height:56px;padding:0 6px 0 22px;border-radius:999px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line-2);width:fit-content;max-width:100%}
+.mailbox code{font:500 15px/1 var(--f-mono);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mailbox .btn{height:44px}
+.dlist{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.dlist li{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:18px 0;border-bottom:1px solid var(--line)}
+.dlist .n{font:500 12px/1.6 var(--f-mono);color:var(--steel)}
+.dlist p{margin:0;font-size:15.5px;color:var(--ink-2)}
+.dlist b{color:var(--ink);font-weight:500}
+.sectxt{margin-top:28px}
+.sectxt .label{margin-bottom:12px}
+
+@media (max-width:1023px){
+  .trace{grid-template-columns:1fr}
+  .tsteps{display:flex;overflow-x:auto;scrollbar-width:none;border-top:0;border-bottom:1px solid var(--line)}
+  .tsteps::-webkit-scrollbar{display:none}
+  .tsteps li{flex:1 0 auto}
+  .tstep{grid-template-columns:auto;padding:12px 16px 14px 0;border-bottom:0;gap:6px}
+  .tstep b{font-size:16px;white-space:nowrap}
+  .tstep span.d{display:none!important}
+  .tdesc{display:block!important}
+  .keep,.promises6{grid-template-columns:1fr}
+  .promise{min-height:0}
+  .lic{grid-template-columns:1fr}
+}
+@media (max-width:899px){
+  .crow{grid-template-columns:1fr auto;gap:8px 16px;padding:18px}
+  .crow.h{display:none}
+  .crow .arr{display:none}
+  .crow > :nth-child(1){grid-column:1}
+  .crow > :nth-child(3){grid-column:1}
+  .crow > :nth-child(3)::before{content:"to ";color:var(--ink-4);font:400 12px var(--f-mono)}
+  .crow > :nth-child(4){grid-column:1 / -1}
+  .crow > :nth-child(5){grid-column:2;grid-row:1}
+  .ctrl{grid-template-columns:1fr;gap:8px}
+  .disclose{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .tscreen{min-height:0}
+  .mailbox{width:100%}
+  .mailbox code{font-size:13px}
+}
+.tdesc{display:none;margin:16px 0 0;font-size:15.5px;color:var(--ink-2);min-height:4.5em}
+</style>
+</head>
+<body data-page="privacy">
+<div id="site-nav"></div>
+
+<header class="page-hero short priv-hero" id="top">
+  <div class="bg" aria-hidden="true"><div class="grid-bg"></div><div class="scanline"></div></div>
+  <div class="wrap">
+    <span class="label hero-label">Privacy &amp; data handling</span>
+    <h1 class="display"><span class="line"><span>What leaves your network?</span></span><span class="line"><span class="thin">Your data: nothing.</span></span></h1>
+    <p class="hero-sub">R-Secure runs on machines you own. This page sets out exactly what it records, where it keeps it, and the one small thing it sends out.</p>
+    <ul class="status" aria-label="Data handling summary">
+      <li><i class="ok pulse"></i><b>Self-hosted</b><span class="sep">·</span>On your machines</li>
+      <li><i class="ok"></i><b>Secrets</b><span class="sep">·</span>Never stored</li>
+      <li><i class="ok"></i><b>Activity data</b><span class="sep">·</span>Stays inside</li>
+      <li><i></i><b>Outbound</b><span class="sep">·</span>License counts only</li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <section class="sec" id="trace" aria-labelledby="trace-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">Trace a secret</span><h2 class="title" id="trace-h">Follow one <em>.env</em> file through R-Secure.</h2></div>
+        <p class="lede">Pick a step, or let it play. This is what happens when an AI tool opens a file that holds a live key.</p>
+      </div>
+      <div class="trace auto" id="trace-ui">
+        <div>
+          <ul class="tsteps" role="tablist" aria-label="Steps">
+            <li><button class="tstep" role="tab" type="button" aria-selected="true" aria-controls="tpanel" data-i="0"><span class="n">01</span><b>The AI tool opens the file</b><span class="d">Claude Code reads ~/payments-api/.env on the developer's laptop. Its hook passes the event to the R-Secure agent on the same laptop.</span><i class="bar"></i></button></li>
+            <li><button class="tstep" role="tab" type="button" aria-selected="false" aria-controls="tpanel" data-i="1" tabindex="-1"><span class="n">02</span><b>Scanned in memory</b><span class="d">The agent checks the contents against the secret rules, on the laptop. Two match: an environment file, and a Stripe live key inside it.</span><i class="bar"></i></button></li>
+            <li><button class="tstep" role="tab" type="button" aria-selected="false" aria-controls="tpanel" data-i="2" tabindex="-1"><span class="n">03</span><b>The value is thrown away</b><span class="d">The key itself is discarded. The agent keeps only the rule names and an 8-character fingerprint, so a repeat of the same key can be recognised.</span><i class="bar"></i></button></li>
+            <li><button class="tstep" role="tab" type="button" aria-selected="false" aria-controls="tpanel" data-i="3" tabindex="-1"><span class="n">04</span><b>One event goes to your server</b><span class="d">A one-line event goes to the R-Secure server you host, inside your network. It holds no file contents and no secret.</span><i class="bar"></i></button></li>
+            <li><button class="tstep" role="tab" type="button" aria-selected="false" aria-controls="tpanel" data-i="4" tabindex="-1"><span class="n">05</span><b>Stored on your server</b><span class="d">The event is saved in the SQLite log on your server and shown in the dashboard. It's deleted when your retention period ends, 90 days by default.</span><i class="bar"></i></button></li>
+          </ul>
+          <p class="tdesc" id="tdesc">Claude Code reads ~/payments-api/.env on the developer's laptop. Its hook passes the event to the R-Secure agent on the same laptop.</p>
+        </div>
+        <div class="tscreen corners" id="tpanel" role="tabpanel">
+          <div class="top"><span id="ttitle">Step 01 · Laptop</span><span id="twhere">Inside your network</span></div>
+          <div class="tdiag">
+            <svg viewBox="0 0 640 230" role="img" aria-labelledby="tdiag-d">
+              <desc id="tdiag-d">Diagram: a developer laptop and your R-Secure server sit inside your network boundary. RAKSYON and the outside internet sit beyond it. The secret value never crosses from the laptop; only an event without the secret travels to your server.</desc>
+              <rect class="zone" x="4" y="12" width="460" height="208" rx="8"/>
+              <text x="22" y="36">YOUR NETWORK</text>
+              <rect class="zone out" x="484" y="12" width="152" height="208" rx="8"/>
+              <text x="500" y="36" style="fill:rgba(255,122,99,.75)">OUTSIDE</text>
+              <g class="nd" id="nLap"><rect x="24" y="72" width="170" height="104" rx="5"/><text x="42" y="98">DEVELOPER LAPTOP</text><text class="nt" x="42" y="126">AI tool + agent</text><text x="42" y="152" id="lapState">HOOK READY</text></g>
+              <g class="nd" id="nSrv"><rect x="276" y="72" width="170" height="104" rx="5"/><text x="294" y="98">R-SECURE SERVER</text><text class="nt" x="294" y="126">Your server</text><text x="294" y="152" id="srvState">WAITING</text></g>
+              <g class="nd" id="nOut"><rect x="498" y="72" width="124" height="104" rx="5"/><text x="512" y="98">RAKSYON</text><text class="nt" x="512" y="126">No events</text><text x="512" y="152">NO SECRETS</text></g>
+              <path class="wire" id="w1" d="M194 124 H276"/>
+              <path class="wire" d="M446 124 H498" stroke-dasharray="2 6"/>
+              <line class="wall" id="wall" x1="474" y1="56" x2="474" y2="194"/>
+              <g class="pkt secret" id="pkt" style="transform:translate(110px,62px)"><circle r="6"/></g>
+              <text class="nogo" id="nogo" x="24" y="204" style="opacity:0">THE SECRET VALUE NEVER LEAVES THE LAPTOP</text>
+            </svg>
+          </div>
+          <pre class="payload" id="payload" aria-live="polite"></pre>
+          <div class="foot"><span id="tfoot">Nothing has left the laptop</span><span class="tctl"><button class="mini" type="button" id="tprev" aria-label="Previous step">←</button><button class="mini" type="button" id="tplay">Pause</button><button class="mini" type="button" id="tnext" aria-label="Next step">→</button></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec flush" id="records" aria-labelledby="rec-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">What gets recorded</span><h2 class="title" id="rec-h">What R-Secure keeps, <em>and what it never does.</em></h2></div>
+        <p class="lede">Everything in the first column lives only on your R-Secure server.</p>
+      </div>
+      <div class="keep">
+        <div class="kcol yes reveal"><span class="code">Recorded · on your server</span><h3>The activity</h3>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Which AI tool acted, on which machine and in which project</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>File paths read and edited, and searches run</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Shell commands and MCP tool calls<small>With any secret in them redacted first</small></span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Which rules matched, and a fingerprint for any secret</span></li>
+          </ul>
+        </div>
+        <div class="kcol opt reveal"><span class="code">Optional · your choice</span><h3>Prompt text</h3>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg><span>What the developer asked the AI tool, shown next to what it did</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg><span>Turn it off for your organization and only actions are kept</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg><span>Stored on your server like everything else</span></li>
+          </ul>
+        </div>
+        <div class="kcol no reveal"><span class="code">Never stored · anywhere</span><h3>The sensitive parts</h3>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Secret values: keys, tokens, passwords, connection strings</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>File contents<small>Scanned in memory on the laptop, then thrown away</small></span></li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Secrets typed into commands<small>Replaced with a redacted marker before saving</small></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="connections" aria-labelledby="con-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">Network connections</span><h2 class="title" id="con-h">Every connection R-Secure makes.</h2></div>
+        <p class="lede">There are three. Only one of them leaves your network, and it carries counts.</p>
+      </div>
+      <div class="conn reveal" role="table" aria-label="R-Secure network connections">
+        <div class="crow h" role="row"><span role="columnheader">From</span><span role="columnheader"></span><span role="columnheader">To</span><span role="columnheader">What it carries</span><span role="columnheader">Where</span></div>
+        <div class="crow" role="row"><span role="cell"><b>Agent</b><small>Each developer machine</small></span><span class="arr" aria-hidden="true">→</span><span role="cell"><b>R-Secure server</b><small>Hosted by you</small></span><p role="cell">One event per action: tool, machine, project, path or command, rules matched, fingerprint. No secret values, no file contents.</p><span role="cell"><span class="where in">Inside</span></span></div>
+        <div class="crow" role="row"><span role="cell"><b>Admin's browser</b><small>Your security team</small></span><span class="arr" aria-hidden="true">→</span><span role="cell"><b>R-Secure server</b><small>Dashboard</small></span><p role="cell">Sign-in and dashboard pages, served from your own server.</p><span role="cell"><span class="where in">Inside</span></span></div>
+        <div class="crow" role="row"><span role="cell"><b>R-Secure server</b><small>Hosted by you</small></span><span class="arr" aria-hidden="true">→</span><span role="cell"><b>License service</b><small>RAKSYON</small></span><p role="cell">Usage counts only: number of agents, number of events, server version. Never file names, commands, prompts or code.</p><span role="cell"><span class="where out">Outside</span></span></div>
+      </div>
+      <div class="lic">
+        <div class="codewrap reveal"><pre class="codeblock"><span class="c">// the whole license check: all RAKSYON receives</span>
+{
+  <span class="k">"agents"</span>: <span class="v">12</span>,
+  <span class="k">"events"</span>: <span class="v">450</span>,
+  <span class="k">"server_version"</span>: <span class="v">"1.4.2"</span>
+}</pre></div>
+        <div class="honest reveal"><span class="code">What R-Secure doesn't do</span>
+          <p><b>It doesn't sit between your AI tools and their model providers.</b> Claude Code and Cursor still talk to their own services, as they do today.</p>
+          <p>To keep a critical file out of a model's context, the hooks stop the read before it happens. For everything else, R-Secure records the access so your team knows exactly what each AI tool saw.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec flush" aria-labelledby="pr-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">Six promises</span><h2 class="title" id="pr-h">A security tool that doesn't <em>become a security risk.</em></h2></div>
+        <p class="lede">R-Secure sees the same sensitive files your AI tools do, so it's built to keep almost nothing.</p>
+      </div>
+      <div class="promises6">
+        <article class="promise corners hoverable reveal"><span class="code">01</span><h3>Secrets are never stored</h3><p>When a key or password turns up, only the rule name and an 8-character fingerprint are kept. The secret never reaches a log, a database or a report.</p></article>
+        <article class="promise corners hoverable reveal"><span class="code">02</span><h3>Contents scanned in memory</h3><p>File contents are checked on the developer's machine and thrown away immediately.</p></article>
+        <article class="promise corners hoverable reveal"><span class="code">03</span><h3>Secrets in commands redacted</h3><p>A key typed into a command is replaced with a redacted marker before anything is saved.</p></article>
+        <article class="promise corners hoverable reveal"><span class="code">04</span><h3>Self-hosted</h3><p>All activity data lives on your server. The license check carries counts, never content.</p></article>
+        <article class="promise corners hoverable reveal"><span class="code">05</span><h3>No slowdown for developers</h3><p>The hooks write one line and exit. If your R-Secure server is down, AI tools keep working normally.</p></article>
+        <article class="promise corners hoverable reveal"><span class="code">06</span><h3>Hard to switch off quietly</h3><p>Tampering with R-Secure's files or hook settings is itself flagged. On Linux, the kernel watcher runs as a protected system component the AI tools can't edit.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="ctl-h">
+    <div class="wrap">
+      <span class="label">Your controls</span>
+      <h2 class="title" id="ctl-h">You decide what's kept, <em>and for how long.</em></h2>
+      <div class="ctrls">
+        <div class="ctrl reveal"><h3>Retention</h3><p>Older events are deleted from your server automatically. Saved daily reports aren't affected.</p><span class="val">90 days by default</span></div>
+        <div class="ctrl reveal"><h3>Prompt logging</h3><p>Record what developers asked, or turn it off for the whole organization.</p><span class="val">On or off</span></div>
+        <div class="ctrl reveal"><h3>Users and roles</h3><p>Admin accounts with roles decide who can see activity in the dashboard.</p><span class="val">Per person</span></div>
+        <div class="ctrl reveal"><h3>Machine tokens</h3><p>Every developer machine has its own access token. Revoke one and that machine stops sending events.</p><span class="val">Per machine</span></div>
+        <div class="ctrl reveal"><h3>Where it runs</h3><p>Agents run on Linux (Ubuntu), macOS and Windows. The kernel watcher runs on Linux only.</p><span class="val">Your machines</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec rule" id="disclosure" aria-labelledby="disc-h">
+    <div class="wrap disclose">
+      <div>
+        <span class="label">Report a vulnerability</span>
+        <h2 class="title" id="disc-h">Found something? <em>Tell us first.</em></h2>
+        <p class="lede">We want to hear about security issues in R-Secure, and a person on the RAKSYON team reads every report.</p>
+        <div class="mailbox"><code>security@raksyon.tech</code><button class="btn btn-primary" type="button" data-copy="security@raksyon.tech">Copy <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></div>
+        <div class="sectxt">
+          <span class="label bare" style="display:flex">security.txt · RFC 9116</span>
+          <div class="codewrap"><pre class="codeblock" id="sectxt"><span class="k">Contact:</span> mailto:security@raksyon.tech
+<span class="k">Expires:</span> 2027-05-04T00:00:00.000Z
+<span class="k">Preferred-Languages:</span> en
+<span class="k">Canonical:</span> https://raksyon.ai/.well-known/security.txt
+<span class="k">Policy:</span> https://raksyon.ai/privacy.html#disclosure</pre><a class="mini" href=".well-known/security.txt">Open file</a></div>
+        </div>
+      </div>
+      <ul class="dlist">
+        <li><span class="n">01</span><p><b>Include the details.</b> Steps to reproduce, the R-Secure version, and the platform: Linux, macOS or Windows.</p></li>
+        <li><span class="n">02</span><p><b>Keep it private for now.</b> Give us time to fix the issue before you share it publicly.</p></li>
+        <li><span class="n">03</span><p><b>We'll work with you.</b> We'll confirm the issue, keep you updated, and agree a disclosure date with you.</p></li>
+        <li><span class="n">04</span><p><b>Don't send secrets.</b> If a report needs a real key or customer data to show the problem, describe it instead.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="band-h">
+    <div class="wrap inner">
+      <h2 id="band-h">Keep secrets inside. <span>See it on your network.</span></h2>
+      <div class="side">
+        <p>A walkthrough with the RAKSYON team on your own infrastructure.</p>
+        <div class="row">
+          <a class="btn btn-primary" href="contact.html">Talk to us <span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          <a class="btn btn-ghost" href="index.html#product">What R-Secure does</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+<script src="assets/js/site.js"></script>
+<script>
+(function(){
+  var GH = window.GH || {}, reduce = !!GH.reduce;
+  var ui = document.getElementById('trace-ui'), tabs = [].slice.call(document.querySelectorAll('.tstep'));
+  var pkt = document.getElementById('pkt'), payload = document.getElementById('payload'), wall = document.getElementById('wall'), nogo = document.getElementById('nogo');
+  var nLap = document.getElementById('nLap'), nSrv = document.getElementById('nSrv'), w1 = document.getElementById('w1');
+  var lapState = document.getElementById('lapState'), srvState = document.getElementById('srvState');
+  var ttitle = document.getElementById('ttitle'), twhere = document.getElementById('twhere'), tfoot = document.getElementById('tfoot'), tdesc = document.getElementById('tdesc');
+  var playBtn = document.getElementById('tplay');
+  var STEPS = [
+    {title:'Step 01 · Laptop', foot:'Nothing has left the laptop', lap:'HOOK FIRED', srv:'WAITING', p:[110,62], secret:true, on:'lap', live:false, wall:false,
+     pay:'<span class="m"># hook event on the developer\'s laptop</span>\n<span class="k">tool</span>   claude-code\n<span class="k">action</span> read\n<span class="k">path</span>   ~/payments-api/.env'},
+    {title:'Step 02 · Laptop', foot:'Scanning happens on the laptop', lap:'SCANNING', srv:'WAITING', p:[110,62], secret:true, on:'lap', live:false, wall:true,
+     pay:'<span class="m"># contents checked in memory</span>\nSTRIPE_SECRET_KEY=<span class="r">sk_live_51Hx…</span>\n\n<span class="k">matched</span> SEC-001 Environment file read\n<span class="k">matched</span> SEC-008 Stripe secret key'},
+    {title:'Step 03 · Laptop', foot:'The value has been discarded', lap:'VALUE DISCARDED', srv:'WAITING', p:[194,124], secret:false, on:'lap', live:false, wall:true, nogo:true,
+     pay:'<span class="m"># the value is thrown away; only this remains</span>\nSTRIPE_SECRET_KEY=<span class="red">&lt;redacted:stripe_secret_key:3f9a1c2e&gt;</span>\n\n<span class="k">fingerprint</span> <span class="v">3f9a1c2e</span>'},
+    {title:'Step 04 · In transit', foot:'Inside your network the whole way', lap:'EVENT SENT', srv:'RECEIVING', p:[236,124], secret:false, on:'srv', live:true, wall:true,
+     pay:'{ <span class="k">"tool"</span>: <span class="v">"claude-code"</span>, <span class="k">"machine"</span>: <span class="v">"priya-mbp"</span>,\n  <span class="k">"path"</span>: <span class="v">"~/payments-api/.env"</span>,\n  <span class="k">"rules"</span>: [<span class="v">"SEC-001"</span>, <span class="v">"SEC-008"</span>],\n  <span class="k">"fingerprint"</span>: <span class="v">"3f9a1c2e"</span> }\n<span class="m"># no contents, no secret value</span>'},
+    {title:'Step 05 · Your server', foot:'Stored on your server, deleted after 90 days', lap:'HOOK READY', srv:'STORED', p:[276,124], secret:false, on:'srv', live:false, wall:true,
+     pay:'<span class="m"># SQLite log on your R-Secure server</span>\n<span class="k">10:42:07</span>  <span class="r">CRITICAL</span>  Claude Code read the file\n          ~/payments-api/.env\n          SEC-001 · SEC-008 · 3f9a1c2e\n<span class="k">retention</span> 90 days'}
+  ];
+  var cur = 0, auto = !reduce, t = 0, timer = 0;
+  function show(i, user){
+    cur = i; var s = STEPS[i];
+    tabs.forEach(function(b, k){ b.setAttribute('aria-selected', k === i); b.tabIndex = k === i ? 0 : -1; });
+    ttitle.textContent = s.title; twhere.textContent = 'Inside your network'; tfoot.textContent = s.foot;
+    lapState.textContent = s.lap; srvState.textContent = s.srv;
+    nLap.classList.toggle('on', s.on === 'lap'); nSrv.classList.toggle('on', s.on === 'srv');
+    w1.classList.toggle('live', s.live); wall.classList.toggle('on', s.wall);
+    nogo.style.opacity = s.nogo ? .9 : 0;
+    pkt.classList.toggle('secret', s.secret);
+    pkt.style.transform = 'translate(' + s.p[0] + 'px,' + s.p[1] + 'px)';
+    tdesc.textContent = tabs[i].querySelector('.d').textContent;
+    if (reduce) payload.innerHTML = s.pay;
+    else { payload.classList.add('swap'); setTimeout(function(){ payload.innerHTML = s.pay; payload.classList.remove('swap'); }, 220); }
+    ui.classList.remove('auto'); void ui.offsetWidth; if (auto) ui.classList.add('auto');
+    if (user) setAuto(false);
+  }
+  function setAuto(on){ auto = on; playBtn.textContent = on ? 'Pause' : 'Play'; ui.classList.toggle('auto', on); clearInterval(timer); if (on) timer = setInterval(function(){ show((cur + 1) % STEPS.length); }, 4200); }
+  tabs.forEach(function(b, i){
+    b.addEventListener('click', function(){ show(i, true); });
+    b.addEventListener('keydown', function(e){ var d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0; if (d){ e.preventDefault(); var n = (i + d + STEPS.length) % STEPS.length; show(n, true); tabs[n].focus(); } });
+  });
+  document.getElementById('tprev').addEventListener('click', function(){ show((cur + STEPS.length - 1) % STEPS.length, true); });
+  document.getElementById('tnext').addEventListener('click', function(){ show((cur + 1) % STEPS.length, true); });
+  playBtn.addEventListener('click', function(){ setAuto(!auto); if (auto) show((cur + 1) % STEPS.length); });
+  show(0);
+  if (reduce){ setAuto(false); playBtn.hidden = true; }
+  else if (GH.whileVisible) GH.whileVisible(ui, function(){ if (auto){ clearInterval(timer); timer = setInterval(function(){ show((cur + 1) % STEPS.length); }, 4200); } }, function(){ clearInterval(timer); });
+  else setAuto(true);
+})();
+</script>
+</body>
+</html>
