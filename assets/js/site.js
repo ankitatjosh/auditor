@@ -3,31 +3,29 @@
   var page = document.body.getAttribute('data-page') || '';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var ARROW = '<span class="chip"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
-  var MARK = '<svg viewBox="0 0 26 26" aria-hidden="true"><path d="M3 24V3h20v21h-5.5V8.5h-9V24H3Z" fill="#f3f1ec"/><rect x="11" y="11" width="4" height="13" rx=".5" fill="#f3f1ec" opacity=".55"/></svg>';
-  var BRAND = '<a class="brand" href="index.html" aria-label="RAKSYON home">' + MARK + '<span>RAKSYON<sup>™</sup></span></a>';
-  var LINKS = [['Platform','index.html#products','platform'],['Trust center','trust.html','trust'],['About','about.html','about'],['Careers','careers.html','careers'],['Contact','contact.html','contact']];
+  var BRAND = '<a class="brand" href="index.html" aria-label="RAKSYON home"><img src="assets/img/raksyon-logo.png" alt="RAKSYON" width="177" height="22"></a>';
+  var LINKS = [['R-Secure','index.html#product','product'],['Privacy','privacy.html','privacy'],['Pricing','index.html#pricing','pricing'],['About','about.html','about'],['Careers','careers.html','careers']];
   function links(){ return LINKS.map(function(l){ return '<a href="' + l[1] + '"' + (l[2] === page ? ' aria-current="page"' : '') + '>' + l[0] + '</a>'; }).join(''); }
 
   var navSlot = document.getElementById('site-nav');
   if (navSlot) navSlot.outerHTML =
     '<nav class="nav" id="nav" aria-label="Primary"><div class="wrap">' + BRAND +
     '<div class="links">' + links() + '</div>' +
-    '<a class="signin" href="app.html">Sign in</a>' +
     '<a class="btn btn-primary nav-cta" href="contact.html"' + (page === 'contact' ? ' aria-current="page"' : '') + '>Contact ' + ARROW + '</a>' +
     '<button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span><i></i><i></i></span></button>' +
     '</div></nav>' +
     '<div class="menu" id="menu" aria-hidden="true">' + links() + '<a href="contact.html"' + (page === 'contact' ? ' aria-current="page"' : '') + '>Contact</a>' +
-    '<a href="app.html">Sign in</a><a class="btn btn-primary" href="index.html#demo">Book a demo ' + ARROW + '</a></div>';
+    '<a class="btn btn-primary" href="index.html#demo">Book a demo ' + ARROW + '</a></div>';
 
   var footSlot = document.getElementById('site-footer');
   function cur(p){ return p === page ? ' aria-current="page"' : ''; }
   if (footSlot) footSlot.outerHTML =
     '<footer><div class="wrap"><div class="fgrid">' +
-    '<div>' + BRAND + '<p>The AI Defense Layer.<br><span>Secure Intelligence.</span> <span>Across Every Language.</span></p><div class="fvalues"><span>Vigilance</span><span>Precision</span><span>Resilience</span></div></div>' +
-    '<div><h4>Products</h4><ul><li><a href="index.html#products">Warden</a></li><li><a href="index.html#products">Portcullis</a></li><li><a href="index.html#products">Sieve</a></li><li><a href="index.html#products">Logbook</a></li></ul></div>' +
-    '<div><h4>Company</h4><ul><li><a href="about.html"' + cur('about') + '>About</a></li><li><a href="careers.html"' + cur('careers') + '>Careers</a></li><li><a href="trust.html"' + cur('trust') + '>Trust center</a></li><li><a href="contact.html"' + cur('contact') + '>Contact</a></li></ul></div>' +
-    '<div><h4>Resources</h4><ul><li><a href="index.html#install">Docs</a></li><li><a href="index.html#pricing">Pricing</a></li><li><a href="trust.html#status">Status</a></li><li><a href="trust.html#disclosure">Report a vulnerability</a></li></ul></div>' +
-    '</div><div class="fbase"><span>© 2026 RAKSYON Security, Inc.</span><span>security@raksyon.tech</span></div></div></footer>';
+    '<div>' + BRAND + '<p>R-Secure: self-hosted visibility into what AI coding tools touch, kept inside your network.</p><div class="fvalues"><span>Vigilance</span><span>Precision</span><span>Resilience</span></div></div>' +
+    '<div><h4>Product</h4><ul><li><a href="index.html#product">What it does</a></li><li><a href="index.html#edge">Where data stays</a></li><li><a href="index.html#pricing">Pricing</a></li></ul></div>' +
+    '<div><h4>Company</h4><ul><li><a href="about.html"' + cur('about') + '>About</a></li><li><a href="careers.html"' + cur('careers') + '>Careers</a></li><li><a href="contact.html"' + cur('contact') + '>Contact</a></li></ul></div>' +
+    '<div><h4>Security</h4><ul><li><a href="privacy.html"' + cur('privacy') + '>Privacy &amp; data handling</a></li><li><a href="privacy.html#disclosure">Report a vulnerability</a></li><li><a href=".well-known/security.txt">security.txt</a></li></ul></div>' +
+    '</div><div class="fbase"><span>© 2026 RAKSYON</span><span>security@raksyon.tech</span></div></div></footer>';
 
   /* nav state */
   var nav = document.getElementById('nav');

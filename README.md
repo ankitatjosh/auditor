@@ -8,6 +8,6 @@ RAKSYON is an intelligent shield protecting AI systems from adversarial threats.
 ## Site
 
 Static marketing site: `index.html` (home), `about.html`, `careers.html`, `trust.html` (Trust
-center) and `contact.html`. Shared nav, footer and behaviour live in `site.js` and `site.css`;
+center) and `contact.html`. Shared nav, footer and behaviour live in `assets/js/site.js` and `assets/css/site.css`;
 `enquiry.js` sends the contact forms to the backend endpoint set in each page's
 `<meta name="enquiry-endpoint">`.
